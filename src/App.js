@@ -66,7 +66,7 @@ class App extends React.Component {
   // }
 
   render() {
-    const { fishMenu } = this.state;
+    const { fishMenu, order } = this.state;
     return (
       <div className="catch-of-the-day">
         <div className="menu">
@@ -82,7 +82,7 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order />
+        <Order fishMenu={fishMenu} order={order}/>
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
