@@ -17,11 +17,12 @@ class AddFishForm extends React.Component {
     e.preventDefault();
 
     const fish = {
+      
       name: this.nameRef.current.value,
       price: parseFloat(this.priceRef.current.value),
-      available: this.statusRef.current.value,
+      isAvailable: this.statusRef.current.value === "available" ? true : false,
       desc: this.descRef.current.value,
-      image: this.imageRef.current.value === "available" ? true : false,
+      image: this.imageRef.current.value,
     };
 
     this.props.addFish(fish);
@@ -31,15 +32,15 @@ class AddFishForm extends React.Component {
 
   render() {
     return (
-      <form className="fish-edit" onSubmit={this.props.addFish}>
-        <input name="name" type="text" placeholder="Name" />
-        <input name="price" type="number" placeholder="Price" />
-        <select name="status">
+      <form className="fish-edit" onSubmit={this.createFish}>
+        <input name="name" type="text" placeholder="Name" ref={this.nameRef}/>
+        <input name="price" type="number" placeholder="Price" ref={this.priceRef}/>
+        <select name="status" ref={this.statusRef}>
           <option value="available">Fresh!</option>
           <option value="unavailable">Sold Out!</option>
         </select>
-        <textarea name="desc" placeholder="Description" />
-        <input name="image" type="text" placeholder="Image" />
+        <textarea name="desc" placeholder="Description" ref={this.descRef}/>
+        <input name="image" type="text" placeholder="Image" ref={this.imageRef}/>
         <button type="submit">+ Add Fish </button>
       </form>
     );

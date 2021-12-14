@@ -4,12 +4,25 @@ import Order from "./components/Order";
 import Inventory from "./components/Inventory";
 import sampleFishes from "./sample-fishes";
 import Fish from "./components/Fish";
+import base from "./base";
 
 class App extends React.Component {
   state = {
     fishMenu: {},
     order: {},
   };
+
+  componentDidMount() {
+    const { params } = this.props.match;
+    this.ref = base.syncState(`${params.storeId}/fishMenu`, { // forward slash used to go deeper into objects
+      context: this,
+      state: 'fishMenu'
+    }); 
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref); // to stop listening for updates
+  }
 
   loadSampleFishes = () => {
     this.setState({
@@ -49,7 +62,7 @@ class App extends React.Component {
   //       if(type === "number") {
   //         newFish[name] = parseFloat(value);
   //       } else if (type === "select-one") {
-  //         newFish.available = (value === "available" ? true : false);
+  //         newFish.isAvailable = (value === "available" ? true : false);
   //     } else {
   //       newFish[name] = value;
   //     }
@@ -82,7 +95,7 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order fishMenu={fishMenu} order={order}/>
+        <Order fishMenu={fishMenu} order={order} />
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
