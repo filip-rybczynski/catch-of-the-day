@@ -18,18 +18,21 @@ class App extends React.Component {
     if (localStorageRef) {
       this.setState({
         order: JSON.parse(localStorageRef),
-      })
-      
+      });
     }
-    this.ref = base.syncState(`${params.storeId}/fishMenu`, { // forward slash used to go deeper into objects
+    this.ref = base.syncState(`${params.storeId}/fishMenu`, {
+      // forward slash used to go deeper into objects
       context: this,
-      state: 'fishMenu'
-    }); 
+      state: "fishMenu",
+    });
   }
 
   componentDidUpdate() {
     const { params } = this.props.match;
-      localStorage.setItem(`${params.storeId}-order`, JSON.stringify(this.state.order))
+    localStorage.setItem(
+      `${params.storeId}-order`,
+      JSON.stringify(this.state.order)
+    );
   }
 
   componentWillUnmount() {
@@ -63,20 +66,20 @@ class App extends React.Component {
   };
 
   onEditFormChange = (fishId, e) => {
-    const {value, name} = e.currentTarget;
+    const { value, name } = e.currentTarget;
 
-    const newFishMenu = {...this.state.fishMenu}
+    const newFishMenu = { ...this.state.fishMenu };
 
     if (name === "isAvailable") {
-      newFishMenu[fishId][name] = value === 'available' ? true : false;
+      newFishMenu[fishId][name] = value === "available" ? true : false;
     } else {
       newFishMenu[fishId][name] = value;
     }
 
     this.setState({
       fishMenu: newFishMenu,
-    })
-  }
+    });
+  };
 
   // TODO After course is finished, re-write the code without refs
   //   addFish = (e) => {
