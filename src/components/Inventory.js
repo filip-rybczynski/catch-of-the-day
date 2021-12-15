@@ -1,5 +1,6 @@
 import React from "react";
 import AddFishForm from "./AddFishForm";
+import EditFishForm from "./EditFishForm";
 
 class Inventory extends React.Component {
   constructor(props) {
@@ -8,10 +9,12 @@ class Inventory extends React.Component {
   }
 
   render() {
+    const {fishMenu, addFish, loadSampleFishes, onEditFormChange} = this.props;
     return (<div className="inventory">
         <h2>Inventory</h2>
-        <AddFishForm addFish={this.props.addFish}/>
-        <button onClick={this.props.loadSampleFishes}>Load Sample Fishes</button>
+        {Object.keys(fishMenu).map(key => <EditFishForm key={key} fishId={key} fish={fishMenu[key]} onEditFormChange={onEditFormChange}/>)}
+        <AddFishForm addFish={addFish}/>
+        <button onClick={loadSampleFishes}>Load Sample Fishes</button>
     </div>);
   }
 }

@@ -9,7 +9,7 @@ class AddFishForm extends React.Component {
 // TODO remove refs and use controlled components
   nameRef = React.createRef();
   priceRef = React.createRef();
-  statusRef = React.createRef();
+  isAvailableRef = React.createRef();
   descRef = React.createRef();
   imageRef = React.createRef();
 
@@ -20,7 +20,7 @@ class AddFishForm extends React.Component {
       
       name: this.nameRef.current.value,
       price: parseFloat(this.priceRef.current.value),
-      isAvailable: this.statusRef.current.value === "available" ? true : false,
+      isAvailable: this.isAvailableRef.current.value === "available" ? true : false,
       desc: this.descRef.current.value,
       image: this.imageRef.current.value,
     };
@@ -35,7 +35,7 @@ class AddFishForm extends React.Component {
       <form className="fish-edit" onSubmit={this.createFish}>
         <input name="name" type="text" placeholder="Name" ref={this.nameRef}/>
         <input name="price" type="number" placeholder="Price" ref={this.priceRef}/>
-        <select name="status" ref={this.statusRef}>
+        <select name="isAvailable" ref={this.isAvailableRef}>
           <option value="available">Fresh!</option>
           <option value="unavailable">Sold Out!</option>
         </select>

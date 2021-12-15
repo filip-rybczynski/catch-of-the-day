@@ -62,6 +62,22 @@ class App extends React.Component {
     });
   };
 
+  onEditFormChange = (fishId, e) => {
+    const {value, name} = e.currentTarget;
+
+    const newFishMenu = {...this.state.fishMenu}
+
+    if (name === "isAvailable") {
+      newFishMenu[fishId][name] = value === 'available' ? true : false;
+    } else {
+      newFishMenu[fishId][name] = value;
+    }
+
+    this.setState({
+      fishMenu: newFishMenu,
+    })
+  }
+
   // TODO After course is finished, re-write the code without refs
   //   addFish = (e) => {
   //     e.preventDefault();
@@ -111,6 +127,8 @@ class App extends React.Component {
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
+          fishMenu={fishMenu}
+          onEditFormChange={this.onEditFormChange}
         />
       </div>
     );
