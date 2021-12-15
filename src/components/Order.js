@@ -23,9 +23,12 @@ class Order extends React.Component {
   //   return <p>{formatPrice(totalSum)}</p>;
   // };
 
-  renderOrderList = (key) => {
-    const fish = this.props.fishMenu[key];
-    const count = this.props.order[key];
+  renderOrderListItem = (key) => {
+    const { fishMenu, order } = this.props;
+    // First make sure the fishMenu actually contains anything
+    if (Object.keys(fishMenu).length === 0) return null;
+    const fish = fishMenu[key];
+    const count = order[key];
     const isAvailable = fish && fish.isAvailable;
 
     if (isAvailable) {
@@ -35,8 +38,13 @@ class Order extends React.Component {
           {formatPrice(count * fish.price)}
         </li>
       );
-    } else return <li key={key}>Sorry, {fish ? fish.name : 'fish'} is no longer available!</li>
-  }
+    } else
+      return (
+        <li key={key}>
+          Sorry, {fish ? fish.name : "fish"} is no longer available!
+        </li>
+      );
+  };
 
   render() {
     const { fishMenu, order } = this.props;
@@ -44,16 +52,19 @@ class Order extends React.Component {
     const totalPrice = fishesInOrder.reduce((prevSum, key) => {
       const fish = fishMenu[key];
       const count = order[key];
-      const isAvailable = fish && fish.isAvailable; // to check if the fish hasn't been deleted
+      const isAvailable = fish && fish.isAvailable; // to check if the fish hasn't been deleted in the meantime
       return isAvailable ? prevSum + count * fish.price : prevSum;
     }, 0);
 
     return (
       <div className="order-wrap">
         <h2>Order</h2>
-        <ul className="order">
-          {fishesInOrder.map(this.renderOrderList)}
-        </ul>
+        {/* Below: if there are no fishes in the menu, order list shouldn't be generated - especially important if we're loading the order from localStorage, which would typically load faster than the fishMenu from firebase */}
+        {Object.keys(fishMenu).length === 0 ? null : (
+          <ul className="order">
+            {fishesInOrder.map(this.renderOrderListItem)}
+          </ul>
+        )}
         <div className="total">
           Total:
           <strong>{formatPrice(totalPrice)}</strong>
