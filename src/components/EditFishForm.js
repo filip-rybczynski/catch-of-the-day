@@ -7,7 +7,7 @@ class EditFishForm extends React.Component {
   }
 
   render() {
-    const { fish, onEditFormChange, fishId } = this.props;
+    const { fish, onEditFormChange, fishId, deleteFish } = this.props;
     return (
       <div className="fish-edit">
         <input
@@ -43,6 +43,7 @@ class EditFishForm extends React.Component {
           value={fish.image}
           onChange={(e) => onEditFormChange(fishId, e)}
         />
+        <button onClick={() => deleteFish(fishId)}>Remove fish</button>
       </div>
     );
   }

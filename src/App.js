@@ -81,6 +81,24 @@ class App extends React.Component {
     });
   };
 
+  deleteFish = (key) => {
+    // 1. take a copy of state
+    const fishMenu = {...this.state.fishMenu};
+    // 2. update the state (remove from menu)
+    fishMenu[key] = null; // better than using delete since we're mirrorring to Firebase and delete wouldn't work on Firebase. Null works, though.
+    // 3. update state
+    this.setState({ fishMenu });
+  }
+
+  deleteOrderFish = (key) => {
+    // 1. take a copy of state
+    const order = {...this.state.order};
+    // 2. remove item from order
+    delete order[key]; // OK, since order is not mirrorred to Firebase
+    // 3. update state
+    this.setState({ order });
+  }
+
   // TODO After course is finished, re-write the code without refs
   //   addFish = (e) => {
   //     e.preventDefault();
@@ -126,12 +144,13 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order fishMenu={fishMenu} order={order} />
+        <Order fishMenu={fishMenu} order={order} deleteOrderFish={this.deleteOrderFish}/>
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
           fishMenu={fishMenu}
           onEditFormChange={this.onEditFormChange}
+          deleteFish={this.deleteFish}
         />
       </div>
     );

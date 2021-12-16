@@ -9,13 +9,24 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const {fishMenu, addFish, loadSampleFishes, onEditFormChange} = this.props;
-    return (<div className="inventory">
+    const { fishMenu, addFish, loadSampleFishes, onEditFormChange, deleteFish } =
+      this.props;
+    return (
+      <div className="inventory">
         <h2>Inventory</h2>
-        {Object.keys(fishMenu).map(key => <EditFishForm key={key} fishId={key} fish={fishMenu[key]} onEditFormChange={onEditFormChange}/>)}
-        <AddFishForm addFish={addFish}/>
+        {Object.keys(fishMenu).map((key) => (
+          <EditFishForm
+            key={key}
+            fishId={key}
+            fish={fishMenu[key]}
+            onEditFormChange={onEditFormChange}
+            deleteFish={deleteFish}
+          />
+        ))}
+        <AddFishForm addFish={addFish} />
         <button onClick={loadSampleFishes}>Load Sample Fishes</button>
-    </div>);
+      </div>
+    );
   }
 }
 
