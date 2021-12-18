@@ -1,5 +1,6 @@
 import React from "react";
 import { formatPrice } from "../helpers";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Order extends React.Component {
   constructor(props) {
@@ -30,21 +31,46 @@ class Order extends React.Component {
     const fish = fishMenu[key];
     const count = order[key];
     const isAvailable = fish && fish.isAvailable;
+    const transitionOptions = {
+      classNames: "order",
+      key,
+      timeout: { enter: 250, exit: 250 },
+    };
 
     if (isAvailable) {
       return (
-        <li key={key}>
-          {count} lbs {fish.name}
-          {formatPrice(count * fish.price)}
-          <button onClick={() => this.props.deleteOrderFish(key)}>&times;</button>
-        </li>
+        <CSSTransition {...transitionOptions}>
+          <li key={key}>
+            <span>
+              <TransitionGroup component="span" className="count">
+                <CSSTransition
+                  classNames="count"
+                  // setting count as key allows us to have separate elements for two count values at the same time - one entering, the other exiting
+                  key={count}
+                  timeout={{ enter: 250, exit: 250 }}
+                >
+                  <span>{count}</span>
+                </CSSTransition>
+              </TransitionGroup>
+              lbs {fish.name}
+              {formatPrice(count * fish.price)}
+              <button onClick={() => this.props.deleteOrderFish(key)}>
+                &times;
+              </button>
+            </span>
+          </li>
+        </CSSTransition>
       );
     } else
       return (
-        <li key={key}>
-          Sorry, {fish ? fish.name : "fish"} is no longer available!
-          <button onClick={() => this.props.deleteOrderFish(key)}>&times;</button>
-        </li>
+        <CSSTransition {...transitionOptions}>
+          <li key={key}>
+            Sorry, {fish ? fish.name : "fish"} is no longer available!
+            <button onClick={() => this.props.deleteOrderFish(key)}>
+              &times;
+            </button>
+          </li>
+        </CSSTransition>
       );
   };
 
@@ -63,9 +89,10 @@ class Order extends React.Component {
         <h2>Order</h2>
         {/* Below: if there are no fishes in the menu, order list shouldn't be generated - especially important if we're loading the order from localStorage, which would typically load faster than the fishMenu from firebase */}
         {Object.keys(fishMenu).length === 0 ? null : (
-          <ul className="order">
+          // component property used to indicate what component should be rendered out in the end
+          <TransitionGroup component="ul" className="order">
             {fishesInOrder.map(this.renderOrderListItem)}
-          </ul>
+          </TransitionGroup>
         )}
         <div className="total">
           Total:
