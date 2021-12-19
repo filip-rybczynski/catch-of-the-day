@@ -1,11 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { formatPrice } from "../helpers";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import propTypes from "prop-types";
 
 class Order extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  static propTypes = {
+    fishMenu: PropTypes.object,
+    order: PropTypes.object,
+    deleteOrderFish: PropTypes.func,
   }
 
   // calcTotalSum = (order) => {
@@ -25,7 +34,7 @@ class Order extends React.Component {
   // };
 
   renderOrderListItem = (key) => {
-    const { fishMenu, order } = this.props;
+    const { fishMenu, order, deleteOrderFish } = this.props;
     // First make sure the fishMenu actually contains anything
     if (Object.keys(fishMenu).length === 0) return null;
     const fish = fishMenu[key];
@@ -53,11 +62,11 @@ class Order extends React.Component {
                 </CSSTransition>
               </TransitionGroup>
               lbs {fish.name}
+            </span>
               {formatPrice(count * fish.price)}
-              <button onClick={() => this.props.deleteOrderFish(key)}>
+              <button onClick={() => deleteOrderFish(key)}>
                 &times;
               </button>
-            </span>
           </li>
         </CSSTransition>
       );
@@ -66,7 +75,7 @@ class Order extends React.Component {
         <CSSTransition {...transitionOptions}>
           <li key={key}>
             Sorry, {fish ? fish.name : "fish"} is no longer available!
-            <button onClick={() => this.props.deleteOrderFish(key)}>
+            <button onClick={() => tdeleteOrderFish(key)}>
               &times;
             </button>
           </li>

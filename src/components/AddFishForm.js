@@ -1,9 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class AddFishForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  static propTypes = {
+    addFish: PropTypes.func,
   }
 
 // TODO remove refs and use controlled components

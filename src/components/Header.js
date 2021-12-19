@@ -1,4 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
+// Difference between PropTypes and Typescript is basically that PropTypes validates at runtime while Typescript checks at compile time (static type checking)
+// They are not the same thing and both can have their uses - e.g. PropTypes can be useful when getting external data from an API, which can only be received (and checked) at runtime.
 
 const Header = ({tagline}) => (
         <header className="top">
@@ -13,5 +16,9 @@ const Header = ({tagline}) => (
             </h3>
         </header>
     );
+
+Header.propTypes = {
+    tagline: PropTypes.string.isRequired,
+}
 
 export default Header;

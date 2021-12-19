@@ -1,9 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class EditFishForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  static propTypes = {
+    fish: PropTypes.shape({
+      image: PropTypes.string,
+      name: PropTypes.string,
+      desc: PropTypes.string,
+      isAvailable: PropTypes.bool,
+      price: PropTypes.number,
+    }),
+    fishId: PropTypes.string,
+    onEditFormChange: PropTypes.func,
+    deleteFish: PropTypes.func,
   }
 
   render() {

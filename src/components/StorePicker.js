@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { getFunName } from "./../helpers";
 
 class StorePicker extends React.Component {
@@ -6,6 +8,10 @@ class StorePicker extends React.Component {
     super();
     // using refs instead of state for practice purposes
     this.inputRef = React.createRef();
+  }
+
+  static propTypes = {
+    history: PropTypes.object,
   }
 
   goToStore = (e) => {

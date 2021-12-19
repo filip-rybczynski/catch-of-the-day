@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Header from "./components/Header";
 import Order from "./components/Order";
 import Inventory from "./components/Inventory";
@@ -11,6 +13,10 @@ class App extends React.Component {
     fishMenu: {},
     order: {},
   };
+
+  static propTypes = {
+    match: PropTypes.object,
+  }
 
   componentDidMount() {
     const { params } = this.props.match;
