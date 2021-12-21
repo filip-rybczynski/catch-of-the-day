@@ -157,6 +157,7 @@ class App extends React.Component {
           fishMenu={fishMenu}
           onEditFormChange={this.onEditFormChange}
           deleteFish={this.deleteFish}
+          storeId={this.props.match.params.storeId}
         />
       </div>
     );

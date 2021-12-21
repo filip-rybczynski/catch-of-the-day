@@ -14,10 +14,10 @@ class EditFishForm extends React.Component {
       desc: PropTypes.string,
       isAvailable: PropTypes.bool,
       price: PropTypes.number,
-    }),
-    fishId: PropTypes.string,
-    onEditFormChange: PropTypes.func,
-    deleteFish: PropTypes.func,
+    }).isRequired,
+    fishId: PropTypes.string.isRequired,
+    onEditFormChange: PropTypes.func.isRequired,
+    deleteFish: PropTypes.func.isRequired,
   }
 
   render() {
