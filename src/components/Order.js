@@ -75,7 +75,7 @@ class Order extends React.Component {
         <CSSTransition {...transitionOptions}>
           <li key={key}>
             Sorry, {fish ? fish.name : "fish"} is no longer available!
-            <button onClick={() => tdeleteOrderFish(key)}>
+            <button onClick={() => deleteOrderFish(key)}>
               &times;
             </button>
           </li>
