@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Header from "./components/Header";
 import Order from "./components/Order";
-import Inventory from "./components/Inventory";
+import Inventory from "./components/Inventory/Inventory";
 import sampleFishes from "./sample-fishes";
 import Fish from "./components/Fish";
 import base from "./base";

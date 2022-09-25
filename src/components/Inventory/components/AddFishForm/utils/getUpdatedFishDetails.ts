@@ -1,5 +1,5 @@
-import { Availability } from "../../types";
-import { convertAvailability } from "../../utils";
+import { Availability } from "../../../../types";
+import { convertAvailability } from "../../../../utils";
 
 import { AddFishFormElements, FishFormValues } from "../types";
 

@@ -7,7 +7,7 @@ import { AddFishFormProps } from "./AddFishForm.interface";
 import { AddFishFormElements, FishFormValues } from "./types";
 
 // Functions
-import { convertAvailability } from "../utils";
+import { convertAvailability } from "../../../utils";
 import { getUpdatedFishDetails } from "./utils";
 
 // Variables
