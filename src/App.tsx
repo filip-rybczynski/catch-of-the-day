@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
-import Header from "./components/Header";
+import { Header } from "./components/Header";
 import Order from "./components/Order";
 import Inventory from "./components/Inventory";
 import sampleFishes from "./sample-fishes";
