@@ -1,4 +1,4 @@
-export interface FishProperties {
+export interface FishData {
     name: string;
     price: number;
     desc: string;

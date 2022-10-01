@@ -6,7 +6,7 @@ import { formatPrice } from "../helpers";
 class Fish extends React.Component {
   static propTypes = {
     details: PropTypes.shape({
-      image: PropTypes.string.isRequired,
+      imageUrl: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       desc: PropTypes.string.isRequired,
       isAvailable: PropTypes.bool.isRequired,
@@ -25,10 +25,10 @@ class Fish extends React.Component {
   };
 
   render() {
-    const { image, name, price, desc, isAvailable } = this.props.details;
+    const { imageUrl, name, price, desc, isAvailable } = this.props.details;
     return (
       <li className="menu-fish">
-        <img src={image} alt={name} />
+        <img src={imageUrl} alt={name} />
         <h3 className="fish-name">
           {name}
           <span className="price">{formatPrice(price)}</span>

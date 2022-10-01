@@ -1,6 +1,6 @@
-import React from 'react'; // Only for us to be able to use JSX
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import App from '../App';
+import {App} from '../App';
 import NotFound from './NotFound';
 import StorePicker from './StorePicker';
 

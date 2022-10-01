@@ -1,12 +1,11 @@
-import { ChangeEvent } from "react";
-import { FishProperties } from "../../../../types";
+import { FishData, FishFormChangeEvent } from "../../../../types";
 
 export interface EditFishFormProps {
   fishId: string;
-  fish: FishProperties;
+  fish: FishData;
   onEditFormChange: (
     fishId: string,
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: FishFormChangeEvent
   ) => void;
   deleteFish: (key: string) => void;
 }

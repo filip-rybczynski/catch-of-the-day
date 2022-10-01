@@ -1,14 +1,14 @@
-import { Availability } from "../../../../types";
-import { convertAvailability } from "../../../../utils";
+import { Availability } from "../components/types";
+import { convertAvailability } from "../components/utils";
 
-import { AddFishFormElements, FishFormValues } from "../types";
+import { FishData, FishFormElements } from "../types";
 
 export function getUpdatedFishDetails(
-  targetElement: EventTarget & AddFishFormElements,
-  currentFishDetails: FishFormValues
-): FishFormValues {
+  targetElement: EventTarget & FishFormElements,
+  currentFishDetails: FishData
+): FishData {
   const { name: propertyName, value } = targetElement as {
-    name: keyof FishFormValues;
+    name: keyof FishData;
     value: string;
   };
 

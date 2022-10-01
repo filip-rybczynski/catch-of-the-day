@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import firebase from "firebase";
-import base, { firebaseApp } from "../../base";
+import base, { firebaseApp } from "../base";
 
-import {AddFishForm, EditFishForm} from "./components";
-import Login from "../Login";
+// import AddFishForm from "./AddFishForm";
+import { AddFishForm } from "./Inventory/components";
+import { EditFishForm } from "./Inventory/components";
+// import EditFishForm from "../../old-files/EditFishForm";
+import Login from "./Login";
 
 class Inventory extends React.Component {
   constructor(props) {

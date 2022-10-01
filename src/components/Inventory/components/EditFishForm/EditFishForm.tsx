@@ -13,7 +13,7 @@ export const EditFishForm = ({
   deleteFish,
 }: EditFishFormProps) => {
   return (
-    <form className="fish-edit" aria-label="Edit fish">
+    <div className="fish-edit" aria-label="Edit fish">
       <input
         type="text"
         name="name"
@@ -45,12 +45,13 @@ export const EditFishForm = ({
       />
       <input
         type="text"
-        name="Fish image url"
+        aria-label="Fish image url"
+        name="imageUrl"
         value={fish.imageUrl}
         onChange={(e) => onEditFormChange(fishId, e)}
       />
       <button onClick={() => deleteFish(fishId)}>Remove fish</button>
-    </form>
+    </div>
   );
 };
 

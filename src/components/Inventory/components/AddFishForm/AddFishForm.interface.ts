@@ -1,5 +1,5 @@
-import { FishFormValues } from "./types";
+import { FishData } from "../../../../types";
 
 export interface AddFishFormProps {
-    addFish: (fish: FishFormValues) => void
+    addFish: (fish: FishData) => void
 }

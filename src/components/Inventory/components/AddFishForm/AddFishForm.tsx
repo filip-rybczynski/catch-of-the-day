@@ -4,23 +4,23 @@ import PropTypes from "prop-types";
 
 // Types
 import { AddFishFormProps } from "./AddFishForm.interface";
-import { AddFishFormElements, FishFormValues } from "./types";
+import { FishData, FishFormChangeEvent } from "../../../../types";
 
 // Functions
 import { convertAvailability } from "../../../utils";
-import { getUpdatedFishDetails } from "./utils";
+import { getUpdatedFishDetails } from "../../../../utils";
 
 // Variables
 import { DEFAULT_ADD_FISH_FORM_CONTENT } from "./constants";
 
 export const AddFishForm = ({ addFish }: AddFishFormProps) => {
   // All details pertaining to the new fish
-  const [fishDetails, setFishDetails] = useState<FishFormValues>(
+  const [fishDetails, setFishDetails] = useState<FishData>(
     DEFAULT_ADD_FISH_FORM_CONTENT
   );
 
   const handleInputChange = (
-    e: React.ChangeEvent<AddFishFormElements>
+    e: FishFormChangeEvent
   ): void => {
     e.preventDefault();
 
