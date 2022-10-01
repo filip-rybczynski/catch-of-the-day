@@ -3,20 +3,18 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
-import { Header } from "./components/Header";
+import { Header, MenuList } from "./components";
 import Order from "./components/Order";
 import Inventory from "./components/Inventory";
-import sampleFishes from "./sample-fishes";
-import Fish from "./components/Fish";
 
 // Types
 import { AppProps } from "./App.interface";
-import { FishData, FishMenu, FishOrder } from "./types";
-import { FishFormChangeEvent } from "./types";
+import { FishData, FishMenu, FishOrder, FishFormChangeEvent } from "./types";
 
-// Functions & other
-import { appDB } from "./base";
+// Functions & variables
 import { getUpdatedFishDetails } from "./utils";
+import { appDB } from "./base";
+import sampleFishes from "./sample-fishes";
 
 export const App = ({ match: { params } }: AppProps) => {
   const [fishMenu, setFishMenu] = useState<FishMenu>(); // should start as "undefined"
@@ -108,17 +106,7 @@ export const App = ({ match: { params } }: AppProps) => {
     <div className="catch-of-the-day">
       <div className="menu">
         <Header tagline="Fresh Seafood Market" />
-        <ul className="fishes">
-          {fishMenu &&
-            Object.keys(fishMenu).map((key) => (
-              <Fish
-                key={key}
-                details={fishMenu[key]}
-                index={key}
-                addToOrder={addToOrder}
-              />
-            ))}
-        </ul>
+        <MenuList fishMenu={fishMenu || {}} addToOrder={addToOrder} />
       </div>
       <Order
         fishMenu={fishMenu || {}} // to account for "undefined" value
