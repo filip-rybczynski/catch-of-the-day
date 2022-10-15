@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 // Components
 import { Header, MenuList } from "./components";
 import Order from "./components/Order";
-import Inventory from "./components/Inventory";
+import {Inventory} from "./components/Inventory/Inventory";
 
 // Types
 import { AppProps } from "./App.interface";
-import { FishData, FishMenu, FishOrder, FishFormChangeEvent } from "./types";
+import { FishData, FishMenu, FishOrder, FishFormChangeEvent, AddToOrder, OnEditFormChange, DeleteFish, DeleteOrderFish } from "./types";
 
 // Functions & variables
 import { getUpdatedFishDetails } from "./utils";
@@ -67,7 +67,7 @@ export const App = ({ match: { params } }: AppProps) => {
     setFishMenu(newFishMenu);
   };
 
-  const addToOrder = (key: string) => {
+  const addToOrder: AddToOrder = (key) => {
     const newOrder = { ...order };
     if (newOrder[key] === undefined) newOrder[key] = 1;
     else newOrder[key] += 1;
@@ -75,7 +75,7 @@ export const App = ({ match: { params } }: AppProps) => {
     setOrder(newOrder);
   };
 
-  const onEditFormChange = (fishId: string, e: FishFormChangeEvent) => {
+  const onEditFormChange: OnEditFormChange = (fishId, e) => {
     e.preventDefault();
 
     // update fish details for fish with fishId
@@ -90,13 +90,13 @@ export const App = ({ match: { params } }: AppProps) => {
     setFishMenu(newFishMenu);
   };
 
-  const deleteFish = (key: number) => {
+  const deleteFish: DeleteFish = (key) => {
     const newFishMenu = { ...fishMenu };
     delete newFishMenu[key];
     setFishMenu(newFishMenu);
   };
 
-  const deleteOrderFish = (key: number) => {
+  const deleteOrderFish: DeleteOrderFish = (key) => {
     const newOrder = { ...order };
     delete newOrder[key];
     setOrder(newOrder);

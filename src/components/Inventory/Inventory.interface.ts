@@ -1,10 +1,10 @@
-import { FishData, FishFormChangeEvent } from "../../types";
+import { AddFish, DeleteFish, FishMenu, OnEditFormChange } from "../../types";
 
 export interface InventoryProps {
-    addFish: (fish: FishData) => void;
+    addFish: AddFish;
     loadSampleFishes: () => void;
-    fishMenu: {[x: string]: FishData};
-    onEditFormChange: (fishId: string, e: FishFormChangeEvent) => void;
-    deleteFish: (key: number) => void;
+    fishMenu: FishMenu;
+    onEditFormChange: OnEditFormChange;
+    deleteFish: DeleteFish;
     storeId: string;
 }

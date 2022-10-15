@@ -1,11 +1,8 @@
-import { FishData, FishFormChangeEvent } from "../../../../types";
+import { FishData, OnEditFormChange } from "../../../../types";
 
 export interface EditFishFormProps {
   fishId: string;
   fish: FishData;
-  onEditFormChange: (
-    fishId: string,
-    e: FishFormChangeEvent
-  ) => void;
+  onEditFormChange: OnEditFormChange
   deleteFish: (key: string) => void;
 }

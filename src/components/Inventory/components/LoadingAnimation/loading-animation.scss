@@ -1,0 +1,37 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  &__spinner {
+    content: "";
+    display: inline-block;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: solid 8px lightblue;
+    border-left: solid 8px navy;
+
+    margin: 6px 18px 8px;
+    animation: spin 0.8s infinite cubic-bezier(0, 0.5, 1, 0.5);
+  }
+
+  &__text {
+    font-size: 1.2rem;
+
+    margin: 0;
+  }
+}

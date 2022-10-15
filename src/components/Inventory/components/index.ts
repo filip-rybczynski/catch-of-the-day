@@ -1,2 +1,3 @@
 export * from "./AddFishForm";
-export * from "./EditFishForm"
+export * from "./EditFishForm";
+export * from "./LoadingAnimation"

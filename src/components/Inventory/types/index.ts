@@ -1,2 +1,2 @@
 export * from "./LoginData.interface";
-export * from "../../../types/FishFormChangeEvent.type";
+export * from "./AvailableProviders.type";

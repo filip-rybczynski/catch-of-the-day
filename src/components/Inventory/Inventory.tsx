@@ -1,18 +1,18 @@
 // React
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Firebase
 import firebase from "firebase";
-import base, { firebaseApp } from "../../base";
+import { appDB, firebaseApp } from "../../base";
 
 // Components
-import {AddFishForm, EditFishForm} from "./components";
+import { AddFishForm, EditFishForm, LoadingAnimation } from "./components";
 import Login from "../Login";
 
 // Types
 import { InventoryProps } from "./Inventory.interface";
-import { LoginData } from "./types";
+import { AvailableProviders } from "./types";
 
 export const Inventory = ({
   fishMenu,
@@ -20,75 +20,128 @@ export const Inventory = ({
   loadSampleFishes,
   onEditFormChange,
   deleteFish,
-  storeId
+  storeId,
 }: InventoryProps) => {
+  const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [loginData, setLoginData] = useState<LoginData>({
-    uid: null,
-    owner: null,
-  })
+  const databaseOwnerRef = appDB.ref(`${storeId}/owner`);
 
-  // Automatically log in if logged in before
+  // Loading actions:
+  // 1. Check if store already has an owner
+  // 2. Set owner of store (null or ownerId value)
+  // 3. Set up automatic currentUserId update on auth state change IF store already has an owner
+  // 4. Set isLoading to false (stop loading animation)
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user: firebase.User | null) => {
-      if(user !== null) authHandler({ user })
-    })
-  }, [])
+    // callback function of useEffect can't be async directly - useEffect expects the callback to return either a cleaning function or undefined, not a Promise
+    (async () => {
+      try {
+        // 1.
+        const fetchedOwnerId = (await databaseOwnerRef.get()).val(); // Can be null if store doesn't have an owner yet (new store)
 
-  const authHandler = async (authData: {user: firebase.User}): Promise<void> => {
-    // 1. Look up the current store if the database
-    // const store = await base.fetch(storeId, { context: this });
-    // // 2. Claim it if there's no owner
-    // if (!store.owner) {
-    //   await base.post(`${storeId}/owner`, {
-    //     data: authData.user.uid,
-    //   });
-    // }
-    // // 3. Set the state of the inventory component to reflect the current user
-    // setLoginData({
-    //   uid: authData.user.uid,
-    //   owner: store.owner || authData.user.uid,
-    // });
+        // 2.
+        setOwnerId(fetchedOwnerId);
+
+        // 3. Set onAuthStateChanged listener (first time callback will execute is shortly after page load)
+        firebase.auth().onAuthStateChanged((user: firebase.User | null) => {
+          const uid = user?.uid;
+          if (fetchedOwnerId !== null) authHandler(uid as string); // this allows for automatic "log in" if previously signed in user is the owner
+
+          //4.
+          setIsLoading(false);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  // Authenticating user
+  // * Checking updated owner is not strictly necessary for everything to work, so the function is not essential.
+  // * But it's worth keeping at least as a placeholder for any more sophisticated authentication handling in the future
+  const authHandler = async (userId: string): Promise<void> => {
+    try {
+      // 1. Check who the current owner is (make sure nothing has changed)
+      const ownerId: string = (await databaseOwnerRef.get()).val();
+
+      // 2. Update state
+      setOwnerId(ownerId);
+      setCurrentUserId(userId);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const authenticate = (provider: string) => {
-  //   const authProvider = new firebase.auth[`${provider}AuthProvider`]();
-  //   firebaseApp.auth().signInWithPopup(authProvider).then(authHandler);
-  // };
+  // Function to claim store through login when it has no owner yet
+  const claimHandler = async (userId: string): Promise<void> => {
+    try {
+      // 1. Set user as owner of store
+      await databaseOwnerRef.set(userId);
 
-  // const logOut = async (): Promise<void> => {
-  //   // console.log('logOut')
-  //   await firebase.auth().signOut();
-  //   setLoginData({
-  //     ...loginData,
-  //     uid: null,
-  //   })
+      // 2. Update state
+      setCurrentUserId(userId);
+      setOwnerId(userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Authentication function - use authentication of selected providers
+  const authenticate = (provider: string, claim = false) => {
+    const authProvider = new firebase.auth[
+      `${provider}AuthProvider` as AvailableProviders
+    ]();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then((resp) => {
+        const uid = (resp as { user: firebase.User }).user.uid;
+        // Check if we want to claim store or attempt to login
+        if (claim) claimHandler(uid);
+        else authHandler(uid);
+      });
+  };
+
+  // Log out function
+  const logOut = async (): Promise<void> => {
+    try {
+      await firebase.auth().signOut();
+      setCurrentUserId(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Node preparation
+  const logOutButton = <button onClick={logOut}>Log out!</button>;
+
+  // 0. Loading if still loading
+  if (isLoading) return <LoadingAnimation />;
+
+  // 1. If no-one logged in
+  if (!currentUserId) {
+    return <Login authenticate={authenticate} claim={ownerId === null} />;
   }
 
-// Render started here
-
-    const logOutButton = <button onClick={/**logOut**/()=>{}}>Log out!</button>;
-    // 1. Check if they are logged in
-    if (!loginData.uid) {
-      return <Login authenticate={authenticate} />;
-    }
-
-    // 2. Check if they are the owner of the store
-    if (loginData.uid !== loginData.owner) {
-      return (
-        <div>
-          <p>Sorry, you are not the owner!</p>
-          {logOutButton}
-        </div>
-      );
-    }
-
-    // 3. Then they must be the owner - just render the inventory
+  // 3. If someone logged in, but is not the owner
+  if (currentUserId !== ownerId) {
     return (
-      <div className="inventory">
-        <h2>Inventory</h2>
-        {/* {logOut} */}
-        {/* {Object.keys(fishMenu).map((key) => (
+      <div>
+        <p>Sorry, you are not the owner!</p>
+        {logOutButton}
+      </div>
+    );
+  }
+
+  // 4. Else - logged in user is the owner - show inventory
+  // Of course this is not secure and is just a mock-authorization (state values can be edited by users using React plugins) 😋
+  return (
+    <div className="inventory">
+      <h2>Inventory</h2>
+      <>
+        {logOutButton}
+        {Object.keys(fishMenu).map((key) => (
           <EditFishForm
             key={key}
             fishId={key}
@@ -96,13 +149,13 @@ export const Inventory = ({
             onEditFormChange={onEditFormChange}
             deleteFish={deleteFish}
           />
-        ))} */}
-        <AddFishForm addFish={addFish} />
-        <button onClick={loadSampleFishes}>Load Sample Fishes</button>
-      </div>
-    );
-  }
-
+        ))}
+      </>
+      <AddFishForm addFish={addFish} />
+      <button onClick={loadSampleFishes}>Load Sample Fishes</button>
+    </div>
+  );
+};
 
 Inventory.propTypes = {
   fishMenu: PropTypes.object.isRequired,
