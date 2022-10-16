@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Firebase
@@ -7,7 +7,7 @@ import firebase from "firebase";
 import { appDB, firebaseApp } from "../../base";
 
 // Components
-import { AddFishForm, EditFishForm, LoadingAnimation } from "./components";
+import { AddFishForm, LoadingAnimation } from "./components";
 import Login from "../Login";
 
 // Types
@@ -15,13 +15,11 @@ import { InventoryProps } from "./Inventory.interface";
 import { AvailableProviders } from "./types";
 
 export const Inventory = ({
-  fishMenu,
   addFish,
   loadSampleFishes,
-  onEditFormChange,
-  deleteFish,
   storeId,
-}: InventoryProps) => {
+  children
+}: PropsWithChildren<InventoryProps>) => {
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -141,15 +139,8 @@ export const Inventory = ({
       <h2>Inventory</h2>
       <>
         {logOutButton}
-        {Object.keys(fishMenu).map((key) => (
-          <EditFishForm
-            key={key}
-            fishId={key}
-            fish={fishMenu[key]}
-            onEditFormChange={onEditFormChange}
-            deleteFish={deleteFish}
-          />
-        ))}
+        {/* Interface for managing the inventory (e.g. editing existing fish) */}
+        {children}
       </>
       <AddFishForm addFish={addFish} />
       <button onClick={loadSampleFishes}>Load Sample Fishes</button>
@@ -158,9 +149,6 @@ export const Inventory = ({
 };
 
 Inventory.propTypes = {
-  fishMenu: PropTypes.object.isRequired,
   addFish: PropTypes.func.isRequired,
   loadSampleFishes: PropTypes.func.isRequired,
-  onEditFormChange: PropTypes.func.isRequired,
-  deleteFish: PropTypes.func.isRequired,
 };

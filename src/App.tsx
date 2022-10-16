@@ -3,18 +3,26 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
-import { Header, MenuList } from "./components";
+import { Header, MenuList, Inventory } from "./components";
 import Order from "./components/Order";
-import {Inventory} from "./components/Inventory/Inventory";
 
 // Types
 import { AppProps } from "./App.interface";
-import { FishData, FishMenu, FishOrder, FishFormChangeEvent, AddToOrder, OnEditFormChange, DeleteFish, DeleteOrderFish } from "./types";
+import {
+  FishData,
+  FishMenu,
+  FishOrder,
+  AddToOrder,
+  OnEditFormChange,
+  DeleteFish,
+  DeleteOrderFish,
+} from "./types";
 
 // Functions & variables
 import { getUpdatedFishDetails } from "./utils";
 import { appDB } from "./base";
 import sampleFishes from "./sample-fishes";
+import FishEditor from "./components/Inventory/components/FishEditor/FishEditor";
 
 export const App = ({ match: { params } }: AppProps) => {
   const [fishMenu, setFishMenu] = useState<FishMenu>(); // should start as "undefined"
@@ -116,11 +124,14 @@ export const App = ({ match: { params } }: AppProps) => {
       <Inventory
         addFish={addFish}
         loadSampleFishes={loadSampleFishes}
-        fishMenu={fishMenu || {}} // to account for "undefined" value
-        onEditFormChange={onEditFormChange}
-        deleteFish={deleteFish}
         storeId={params.storeId}
-      />
+      >
+        <FishEditor
+          fishMenu={fishMenu || {}} // to account for "undefined" value
+          onEditFormChange={onEditFormChange}
+          deleteFish={deleteFish}
+        />
+      </Inventory>
     </div>
   );
 };
