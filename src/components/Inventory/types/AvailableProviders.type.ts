@@ -1,4 +1,4 @@
 export type AvailableProviders =
-| "GithubAuthProvider"
-| "FacebookAuthProvider"
-| "GoogleAuthProvider";
+| "Github"
+| "Facebook"
+| "Google";

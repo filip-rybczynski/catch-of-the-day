@@ -1,2 +1,2 @@
-export * from "./LoginData.interface";
+export * from "./AuthenticateFunction.type";
 export * from "./AvailableProviders.type";

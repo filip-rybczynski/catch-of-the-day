@@ -20,7 +20,7 @@ import {
 
 // Functions & variables
 import { getUpdatedFishDetails } from "./utils";
-import { appDB } from "./base";
+import { appDB } from "./firebase";
 import sampleFishes from "./sample-fishes";
 import FishEditor from "./components/Inventory/components/FishEditor/FishEditor";
 

@@ -3,12 +3,10 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Firebase
-import firebase from "firebase";
-import { appDB, firebaseApp } from "../../base";
+import firebase, { appDB, appAuth, AUTH_PROVIDERS } from "../../firebase";
 
 // Components
-import { AddFishForm, LoadingAnimation } from "./components";
-import Login from "../Login";
+import { AddFishForm, LoadingAnimation, Login } from "./components";
 
 // Types
 import { InventoryProps } from "./Inventory.interface";
@@ -18,7 +16,7 @@ export const Inventory = ({
   addFish,
   loadSampleFishes,
   storeId,
-  children
+  children,
 }: PropsWithChildren<InventoryProps>) => {
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -26,29 +24,27 @@ export const Inventory = ({
 
   const databaseOwnerRef = appDB.ref(`${storeId}/owner`);
 
-  // Loading actions:
-  // 1. Check if store already has an owner
-  // 2. Set owner of store (null or ownerId value)
-  // 3. Set up automatic currentUserId update on auth state change IF store already has an owner
-  // 4. Set isLoading to false (stop loading animation)
+  // Initial loading actions:
   useEffect(() => {
     // callback function of useEffect can't be async directly - useEffect expects the callback to return either a cleaning function or undefined, not a Promise
     (async () => {
       try {
-        // 1.
-        const fetchedOwnerId = (await databaseOwnerRef.get()).val(); // Can be null if store doesn't have an owner yet (new store)
+        // 1. Get store owner id
+        const fetchedOwnerId: string | null = (await databaseOwnerRef.get()).val(); // Can be null if store doesn't have an owner yet (new store)
 
-        // 2.
+        //2. Get current user
+        const currentUser = appAuth.currentUser; // can be null if no user logged in in this session
+
+       // 3. If we have an owner and we have a currentUser and they are the same, log user in
+       if (currentUser?.uid === fetchedOwnerId) {
+         authHandler(currentUser.uid);
+         return
+       }
+
+        // 4. In different cases, only update local state to reflect store owner
         setOwnerId(fetchedOwnerId);
+        setIsLoading(false);
 
-        // 3. Set onAuthStateChanged listener (first time callback will execute is shortly after page load)
-        firebase.auth().onAuthStateChanged((user: firebase.User | null) => {
-          const uid = user?.uid;
-          if (fetchedOwnerId !== null) authHandler(uid as string); // this allows for automatic "log in" if previously signed in user is the owner
-
-          //4.
-          setIsLoading(false);
-        });
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +52,7 @@ export const Inventory = ({
   }, []);
 
   // Authenticating user
-  // * Checking updated owner is not strictly necessary for everything to work, so the function is not essential.
+  // * Checking updated owner is not strictly necessary for everything to work, so the function is not essential (could just be state updates).
   // * But it's worth keeping at least as a placeholder for any more sophisticated authentication handling in the future
   const authHandler = async (userId: string): Promise<void> => {
     try {
@@ -66,6 +62,7 @@ export const Inventory = ({
       // 2. Update state
       setOwnerId(ownerId);
       setCurrentUserId(userId);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -80,20 +77,21 @@ export const Inventory = ({
       // 2. Update state
       setCurrentUserId(userId);
       setOwnerId(userId);
+      setIsLoading(false);
+
     } catch (error) {
       console.log(error);
     }
   };
 
   // Authentication function - use authentication of selected providers
-  const authenticate = (provider: string, claim = false) => {
-    const authProvider = new firebase.auth[
-      `${provider}AuthProvider` as AvailableProviders
-    ]();
-    firebaseApp
-      .auth()
+  const authenticate = (provider: AvailableProviders, claim = false) => {
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+    appAuth
       .signInWithPopup(authProvider)
       .then((resp) => {
+        setIsLoading(true);
+
         const uid = (resp as { user: firebase.User }).user.uid;
         // Check if we want to claim store or attempt to login
         if (claim) claimHandler(uid);
@@ -103,9 +101,12 @@ export const Inventory = ({
 
   // Log out function
   const logOut = async (): Promise<void> => {
+    setIsLoading(true);
+
     try {
-      await firebase.auth().signOut();
+      await appAuth.signOut();
       setCurrentUserId(null);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +120,13 @@ export const Inventory = ({
 
   // 1. If no-one logged in
   if (!currentUserId) {
-    return <Login authenticate={authenticate} claim={ownerId === null} />;
+    return (
+      <Login
+        authFunction={authenticate}
+        claim={ownerId === null}
+        providers={AUTH_PROVIDERS}
+      />
+    );
   }
 
   // 3. If someone logged in, but is not the owner
@@ -139,7 +146,7 @@ export const Inventory = ({
       <h2>Inventory</h2>
       <>
         {logOutButton}
-        {/* Interface for managing the inventory (e.g. editing existing fish) */}
+        {/* UI for managing the inventory (e.g. editing existing fish) */}
         {children}
       </>
       <AddFishForm addFish={addFish} />
@@ -151,4 +158,5 @@ export const Inventory = ({
 Inventory.propTypes = {
   addFish: PropTypes.func.isRequired,
   loadSampleFishes: PropTypes.func.isRequired,
+  storeId: PropTypes.string.isRequired,
 };

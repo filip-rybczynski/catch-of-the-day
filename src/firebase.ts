@@ -1,5 +1,5 @@
-import Rebase from "re-base"; // allows to mirror state to firebase
 import firebase from "firebase";
+import { AvailableProviders } from "./components/Inventory/types";
 
 // Values taken from the corresponding project in Firebase
 const FIREBASE_APP_INIT_OPTIONS = {
@@ -12,14 +12,14 @@ const FIREBASE_APP_INIT_OPTIONS = {
 // Configuring the application
 const firebaseApp = firebase.initializeApp(FIREBASE_APP_INIT_OPTIONS);
 
-// Rebase bindings to the firebase app
-const base = Rebase.createClass(firebaseApp.database());
-
 // for ease of reference
 const appDB = firebaseApp.database();
+const appAuth = firebaseApp.auth();
 
-// named export
-export {firebaseApp, appDB};
+// named exports
+export {firebaseApp, appDB, appAuth};
 
-// default export
-export default base;
+// Constants
+export const AUTH_PROVIDERS: AvailableProviders[] = ["Github", "Facebook", "Google"];
+
+export default firebase;
