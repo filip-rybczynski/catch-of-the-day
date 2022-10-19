@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // Components
-import Fish from "../Fish";
+import {MenuFish} from "./components";
 
 // Types
 import { MenuListProps } from "./MenuList.interface";
@@ -12,7 +12,7 @@ export const MenuList = ({ fishMenu, addToOrder }: MenuListProps) => {
   return (
     <ul className="fishes">
       {Object.keys(fishMenu).map((key) => (
-        <Fish
+        <MenuFish
           key={key}
           details={fishMenu[key]}
           index={key}
