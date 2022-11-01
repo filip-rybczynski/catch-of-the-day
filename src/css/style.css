@@ -605,7 +605,7 @@ button.google:after,
 input[type=submit].google:after {
   background: #be3221;
 }
-.store-selector {
+/* .store-selector {
   background: #fff;
   max-width: 500px;
   margin: 50px auto;
@@ -620,4 +620,4 @@ input[type=submit].google:after {
 .store-selector button[type="text"] {
   text-align: center;
   font-size: 3rem;
-}
+} */

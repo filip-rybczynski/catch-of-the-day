@@ -1,0 +1,1 @@
+export type UpdateMainFormValue = (newValue: string, isActiveTab: boolean) => void
