@@ -17,17 +17,19 @@ export const CreateNewStore = ({
   updateSelectedName(newStoreName, isActive);
   return (
     <>
-      <fieldset>
-        <legend>Choose a name for your store</legend>
+      <fieldset className="store-creator">
+        <legend className="store-creator__legend">Choose a name for your store</legend>
         <ProvideNewName
           setStoreName={setNewStoreName}
         />
-        <span>OR</span>
+        <span className="store-creator__divider">OR</span>
         <GenerateRandomName
           setStoreName={setNewStoreName}
         />
       </fieldset>
+      <h2 className="store-creator__name">
       {newStoreName && `New store name: ${newStoreName}`}
+      </h2>
     </>
   );
 };

@@ -1,0 +1,1 @@
+export type ButtonVals = string | number | boolean;

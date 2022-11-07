@@ -6,19 +6,13 @@ import PropTypes from "prop-types";
 import { SelectExistingStoreProps } from "./SelectExistingStore.interface";
 import { FilterOptions } from "./types";
 
+// Components
+import { SelectOptions } from "./StoreDropdown/SelectOptions";
+
 // Hooks
 import { useExistingStores } from "./hooks/useExistingStores";
+import { splitAndCapitalize } from "../../../../helpers";
 
-// Material UI
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  TextField,
-} from "@mui/material";
 
 export const SelectExistingStore = ({
   updateSelectedName,
@@ -34,65 +28,61 @@ export const SelectExistingStore = ({
 
   updateSelectedName(selectValue, isActive);
 
-  const capitalize = (storeName: string) => {
-    return storeName
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
 
-    setSelectValue(e.target.value);
+    setSelectValue(splitAndCapitalize(e.target.value));
+  };
+
+  const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    setStoreFilter(e.target.value as FilterOptions);
   };
 
   return (
-    <>
-      <TextField
-        id="outlined-select-store-name"
-        select
-        label="Existing store"
-        value={selectValue}
-        helperText="Please select an existing store"
-        onChange={handleSelect}
-      >
-        {existingStores.length !== 0 ? ( //!TODO - extract component?
-          [
-            <MenuItem key={0} value="">
-              --Select--
-            </MenuItem>,
-            ...existingStores.map((store) => (
-              <MenuItem key={store} value={store}>
-                {capitalize(store)}
-              </MenuItem>
-            )),
-          ]
-        ) : (
-          <MenuItem value="">Apologies, no existing stores available!</MenuItem>
-        )}
-      </TextField>
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Owner status</FormLabel>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-          row
-          value={storeFilter}
-          defaultValue=""
-          onChange={(e) => setStoreFilter(e.target.value as FilterOptions)}
-        >
-          <FormControlLabel value="owned" control={<Radio />} label="Owned" />
-          {/* It's not possible to add a store to the Firebase database without an owner (to avoid cluttering the database), but some unowned stores are left in the Firebase database for the purpose of this demo */}
-          <FormControlLabel
-            value="unowned"
-            control={<Radio />}
-            label="Unowned"
+    <div>
+      <label htmlFor="existing-stores">Choose existing store from list</label>
+      <select id="existing-stores" value={selectValue} onChange={handleSelect}>
+        <SelectOptions
+          optionArray={existingStores}
+          messageIfNone="Apologies, no existing stores available!"
+        />
+      </select>
+      <fieldset className="existing-names__filter">
+        <legend>Filter by ownership</legend>
+        <label>
+          <input
+            type="radio"
+            name="store-ownership"
+            value="owned"
+            checked={storeFilter === "owned"}
+            onChange={onFilterChange}
           />
-          <FormControlLabel value="" control={<Radio />} label="All" />
-        </RadioGroup>
-      </FormControl>
-    </>
+          Owned
+        </label>
+        {/* It's not possible to add a store to the Firebase database without an owner (otherwise the database could easily get cluttered), but some unowned stores are left in the Firebase database for the purpose of this demo */}
+        <label>
+          <input
+            type="radio"
+            name="store-ownership"
+            value="unowned"
+            checked={storeFilter === "unowned"}
+            onChange={onFilterChange}
+          />
+          Unowned
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="store-ownership"
+            value=""
+            checked={storeFilter === ""}
+            onChange={onFilterChange}
+          />
+          All
+        </label>
+      </fieldset>
+    </ div>
   );
 };
 

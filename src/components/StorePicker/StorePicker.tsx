@@ -30,13 +30,13 @@ export const StorePicker = (props: RouteComponentProps) => {
     props.history.push(`/store/${slugify(selectedStoreName)}`);
   };
 
-  const formTabNames = ["Existing Store", "NewStore"];
+  const FORM_TAB_NAMES = ["Existing Store", "New Store"];
 
   return (
     <form className="store-selector" onSubmit={goToStore}>
       <h1 className="store-selector__header">Select A Store</h1>
       <nav>
-        {formTabNames.map((name, index) => (
+        {FORM_TAB_NAMES.map((name, index) => (
           <NavTab
             key={name + index.toString()}
             index={index}
@@ -68,8 +68,13 @@ export const StorePicker = (props: RouteComponentProps) => {
         )}
       />
 
-      <button type="submit" className="submit-button">
-        Let's go ➡
+      <button type="submit" className="submit-button" disabled={!selectedStoreName}>
+        {
+          selectedStoreName
+          ? `Go to ${selectedStoreName} ➡`
+          : "Please choose a store to visit"
+        }
+        
       </button>
     </form>
   );

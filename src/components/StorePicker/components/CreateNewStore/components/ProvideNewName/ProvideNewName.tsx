@@ -5,9 +5,6 @@ import PropTypes from "prop-types";
 // Types
 import { ProvideNewNameProps } from "./ProvideNewName.interface";
 
-//Material UI
-import { TextField } from "@mui/material";
-
 export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const [inputName, setInputName] = useState("");
   const [inputError, setInputError] = useState("");
@@ -34,14 +31,26 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   };
 
   return (
-    <TextField
-      id="outlined-input-new-name"
-      error={!!inputError}
-      label="New store name"
-      value={inputName}
-      helperText={inputError || "Please provide a name for your store"}
-      onChange={handleChange}
-    ></TextField>
+    <div className="name-input">
+      <label htmlFor="new-store-input" className="name-input__label">
+        New store name
+      </label>
+      <input
+        type="text"
+        id="new-store-input"
+        className="name-input__field"
+        name="new-name"
+        value={inputName}
+        onChange={handleChange}
+      />
+      {inputError ? (
+        <label htmlFor="new-store-input" className="name-input__error-label">
+          {inputError}
+        </label>
+      ) : (
+        ""
+      )}
+    </div>
   );
 };
 
