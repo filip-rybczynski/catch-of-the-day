@@ -12,7 +12,10 @@ import { SelectOptions } from "./StoreDropdown/SelectOptions";
 // Hooks
 import { useExistingStores } from "./hooks/useExistingStores";
 import { splitAndCapitalize } from "../../../../helpers";
+import { FilterInputs } from "./FilterInputs";
 
+
+const FILTER_OPTIONS = ["owned", "unowned"]
 
 export const SelectExistingStore = ({
   updateSelectedName,
@@ -48,41 +51,17 @@ export const SelectExistingStore = ({
           messageIfNone="Apologies, no existing stores available!"
         />
       </select>
-      <fieldset className="existing-names__filter">
-        <legend>Filter by ownership</legend>
-        <label>
-          <input
-            type="radio"
-            name="store-ownership"
-            value="owned"
-            checked={storeFilter === "owned"}
-            onChange={onFilterChange}
-          />
-          Owned
-        </label>
-        {/* It's not possible to add a store to the Firebase database without an owner (otherwise the database could easily get cluttered), but some unowned stores are left in the Firebase database for the purpose of this demo */}
-        <label>
-          <input
-            type="radio"
-            name="store-ownership"
-            value="unowned"
-            checked={storeFilter === "unowned"}
-            onChange={onFilterChange}
-          />
-          Unowned
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="store-ownership"
-            value=""
-            checked={storeFilter === ""}
-            onChange={onFilterChange}
-          />
-          All
-        </label>
-      </fieldset>
-    </ div>
+      <fieldset className="existing-stores__filter filter-options">
+        <legend className="filter-options__legend">Filter by ownership</legend>
+        <FilterInputs
+          onChange={onFilterChange}
+          currentFilter={storeFilter}
+          // Re: unowned option - It's not possible to add a store to the Firebase database without an owner (otherwise the database could easily get cluttered), but some unowned stores are left in the Firebase database for the purpose of this demo
+          values={FILTER_OPTIONS}
+          labelClassName={"filter-options__label"}
+        />
+      </fieldset> 
+    </div>
   );
 };
 
