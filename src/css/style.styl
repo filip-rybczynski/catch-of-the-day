@@ -230,7 +230,7 @@ button, input[type=submit]
   transition all 0.2s
   position relative
   z-index 2
-  &[disabled]
+  &[disabled]:not(.store-selector__submit-button)
     color red
     background white
     border-color red
@@ -291,17 +291,3 @@ button, input[type=submit]
     background #DD4B39
     &:after
       background darken(#DD4B39, 20%)
-
-
-// Store Selector
-.store-selector
-  background white
-  max-width 500px
-  margin 50px auto
-  padding 2rem
-  border 2px solid black
-  input, button
-    width 100%
-    &[type="text"]
-      text-align center
-      font-size 3rem

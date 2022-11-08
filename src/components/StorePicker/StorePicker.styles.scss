@@ -1,21 +1,59 @@
 .store-selector {
-    background: #fff;
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 2rem;
-    border: 2px solid #000;
+  background: #fff;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 2rem;
+  border: 2px solid #000;
+
+  font-family: 'blanchcaps_inline', sans-serif;
+  font-weight: 600;
+
+  &__header {
+    font-size: 6rem;
+    margin-bottom: 1.5rem;
   }
-  .store-selector input,
-  .store-selector button {
-    // width: 100%;
+  &__nav-button {
+    width: 50%;
+
+    padding: 0.7rem;
+
+font-family: inherit;
+    font-size: 3.5rem;
   }
 
-  .store-selector .submit-button {
+  &__current-selection {
+    margin: 0.5rem 0 1.5rem;
+    
+    font-size: 4rem;
+    font-family: inherit;
+    font-weight: inherit;
+
+
+    text-align: left;
+  }
+
+  &__submit-button {
     width: 100%;
-  }
+    padding: 1rem;
 
-  .store-selector input[type="text"],
-  .store-selector button[type="text"] {
-    text-align: center;
-    font-size: 3rem;
+    font-size: 5rem;
+    font-family: inherit;
+    font-weight: inherit;
+
+    &[disabled] {
+      &:after {
+        display: none;
+      }
+      &:hover,
+      &:focus {
+        color: crimson;
+      }
+    }
   }
+}
+
+.store-selector input[type="text"],
+.store-selector button[type="text"] {
+  // text-align: center;
+  // font-size: 3rem;
+}

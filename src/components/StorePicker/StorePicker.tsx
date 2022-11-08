@@ -67,11 +67,14 @@ export const StorePicker = (props: RouteComponentProps) => {
           />
         )}
       />
+      <h2 className="store-selector__current-selection">
+        Selected store: {selectedStoreName || "none" }
+      </h2>
 
-      <button type="submit" className="submit-button" disabled={!selectedStoreName}>
+      <button type="submit" className="store-selector__submit-button" disabled={!selectedStoreName}>
         {
           selectedStoreName
-          ? `Go to ${selectedStoreName} ➡`
+          ? `Go to store `
           : "Please choose a store to visit"
         }
         
