@@ -29,12 +29,12 @@ export const SelectExistingStore = ({
     filterExistingStores(storeFilter);
   }, [storeFilter]);
 
-  updateSelectedName(selectValue, isActive);
+  updateSelectedName(splitAndCapitalize(selectValue), isActive);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
 
-    setSelectValue(splitAndCapitalize(e.target.value));
+    setSelectValue(e.target.value);
   };
 
   const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
