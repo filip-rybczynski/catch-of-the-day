@@ -14,16 +14,14 @@ export const ToggleButtonGroup = <T extends ButtonVals>({
   valueHandler,
   mainButtonClass = "toggle-button",
 }: ToggleButtonGroupProps<T>) => {
-  const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(
-    null
+  const [activeButtonIndex, setActiveButtonIndex] = useState<number>(
+    0
   );
 
   const handleClick = (val: T, i: number) => {
     valueHandler(val);
 
-    if (activeButtonIndex === i) {
-      setActiveButtonIndex(null);
-    } else {
+    if (activeButtonIndex !== i) {
       setActiveButtonIndex(i);
     }
   };
