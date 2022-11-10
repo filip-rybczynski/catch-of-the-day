@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
-import { Header, MenuList, Inventory } from "./components";
-import Order from "./components/Order";
+import { Header, MenuList, Inventory, Order } from "./components";
 
 // Types
 import { AppProps } from "./App.interface";
