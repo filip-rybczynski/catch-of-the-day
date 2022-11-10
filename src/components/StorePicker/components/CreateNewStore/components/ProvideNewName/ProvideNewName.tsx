@@ -16,13 +16,19 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    const newValue = e.currentTarget.value;
-    setInputName(newValue);
+    const newEntry = e.currentTarget.value;
 
-    const words = newValue.split(" ");
+    if (newEntry !== "" && !/^[a-zA-Z\s]+$/.test(newEntry)) {
+      setInputError("Only letters are allowed in store names!");
+      return;
+    }
 
-    if (words.length > 3) {
-      setInputError("Too long! Max 3 words");
+    setInputName(newEntry);
+
+    const words = newEntry.split(" ").filter((str) => str !== "");
+
+    if (words.length > 2 && newEntry.slice(-1) === " ") { // user can continue typing the third word until he enters a space character
+      setInputError("Name can't be longer than 3 words!");
       setInputName(words.slice(0, 3).join(" "));
       return;
     }
