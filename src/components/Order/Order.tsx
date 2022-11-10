@@ -1,49 +1,38 @@
+// React
 import React from "react";
 import PropTypes from "prop-types";
-
-import { formatPrice } from "../../helpers";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+
+// types
 import { OrderProps } from "./Order.interface";
 
+// utils
+import { formatPrice } from "../../helpers";
+
 export const Order = ({ fishMenu, order, deleteOrderFish }: OrderProps) => {
-  // calcTotalSum = (order) => {
-  //   const fishesInOrder = Object.keys(order);
-
-  //   if (fishesInOrder.length === 0) return;
-
-  //   const totalSum = fishesInOrder.reduce((totalSum, fish) => {
-  //     if (this.props.fishMenu[fish].available) {
-  //       return (
-  //         totalSum + this.props.order[fish] * this.props.fishMenu[fish].price
-  //       );
-  //     }
-  //   }, 0);
-
-  //   return <p>{formatPrice(totalSum)}</p>;
-  // };
-
+  // Rendering order item
   const renderOrderListItem = (key: string) => {
-    // const { fishMenu, order, deleteOrderFish } = this.props;
-    // First make sure the fishMenu actually contains anything
-    if (Object.keys(fishMenu).length === 0) return null;
-    const fish = fishMenu[key];
-    const count = order[key];
-    const isAvailable = fish && fish.isAvailable;
-    const transitionOptions = {
+    const fish = fishMenu[key]; // get object with data associated with current fish/list item
+    const count = order[key]; // get number of fishes
+    const isAvailable = fish && fish.isAvailable; // make sure fish exists in menu AND is available (not sold out)
+
+    // Options for the CSSTransition component
+    const TRANSITION_OPTIONS = {
       classNames: "order",
       key,
       timeout: { enter: 250, exit: 250 },
     };
 
     if (isAvailable) {
+      // Return list item with fish name, amount and price for said amount
       return (
-        <CSSTransition {...transitionOptions}>
+        <CSSTransition {...TRANSITION_OPTIONS}>
           <li key={key}>
             <span>
               <TransitionGroup component="span" className="count">
                 <CSSTransition
                   classNames="count"
-                  // setting count as key allows us to have separate elements for two count values at the same time - one entering, the other exiting
+                  // setting count as key allows us to have separate elements for two count values at the same time - new one entering, previous one exiting
                   key={count}
                   timeout={{ enter: 250, exit: 250 }}
                 >
@@ -57,9 +46,11 @@ export const Order = ({ fishMenu, order, deleteOrderFish }: OrderProps) => {
           </li>
         </CSSTransition>
       );
-    } else
+    }
+    // Return a message that fish is unavailable - either by being sold out or by being removed from the menu completely
+    else
       return (
-        <CSSTransition {...transitionOptions}>
+        <CSSTransition {...TRANSITION_OPTIONS}>
           <li key={key}>
             Sorry, {fish ? fish.name : "fish"} is no longer available!
             <button onClick={() => deleteOrderFish(key)}>&times;</button>
@@ -68,10 +59,11 @@ export const Order = ({ fishMenu, order, deleteOrderFish }: OrderProps) => {
       );
   };
 
-  const fishesInOrder = Object.keys(order);
+  const fishesInOrder = Object.keys(order); // array of fish IDs in order
+
   const totalPrice = fishesInOrder.reduce((prevSum, key) => {
-    const fish = fishMenu[key];
-    const count = order[key];
+    const fish = fishMenu[key]; // get object with data associated with current fish/list item
+    const count = order[key]; // get number of fishes
     const isAvailable = fish && fish.isAvailable; // to check if the fish hasn't been deleted in the meantime
     return isAvailable ? prevSum + count * fish.price : prevSum;
   }, 0);
@@ -83,7 +75,7 @@ export const Order = ({ fishMenu, order, deleteOrderFish }: OrderProps) => {
       {Object.keys(fishMenu).length === 0 ? null : (
         // component property used to indicate what component should be rendered out in the end
         <TransitionGroup component="ul" className="order">
-          <>{fishesInOrder.map(renderOrderListItem)}</>
+          {fishesInOrder.map(renderOrderListItem)}
         </TransitionGroup>
       )}
       <div className="total">
@@ -95,7 +87,7 @@ export const Order = ({ fishMenu, order, deleteOrderFish }: OrderProps) => {
 };
 
 Order.propTypes = {
-  fishMenu: PropTypes.object,
-  order: PropTypes.object,
-  deleteOrderFish: PropTypes.func,
+  fishMenu: PropTypes.object.isRequired,
+  order: PropTypes.object.isRequired,
+  deleteOrderFish: PropTypes.func.isRequired,
 };
