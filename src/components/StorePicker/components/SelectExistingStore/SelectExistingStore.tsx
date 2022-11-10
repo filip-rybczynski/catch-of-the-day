@@ -14,6 +14,8 @@ import { useExistingStores } from "./hooks/useExistingStores";
 import { splitAndCapitalize } from "../../../../helpers";
 import { FilterInputs } from "./FilterInputs";
 
+// styles
+import "./SelectExistingStore.styles.scss";
 
 const FILTER_OPTIONS = ["owned", "unowned"]
 
@@ -38,19 +40,32 @@ export const SelectExistingStore = ({
   };
 
   const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
     setStoreFilter(e.target.value as FilterOptions);
   };
 
   return (
-    <div>
-      <label htmlFor="existing-stores">Choose existing store from list</label>
-      <select id="existing-stores" value={selectValue} onChange={handleSelect}>
-        <SelectOptions
-          optionArray={existingStores}
-          messageIfNone="Apologies, no existing stores available!"
-        />
-      </select>
+    <section className="existing-stores">
+      <h2 className="existing-stores__header">Visit existing store</h2>
+      <div className="existing-stores__flex">
+      <div className="existing-stores__selection">
+        <label
+          htmlFor="existing-stores"
+          className="existing-stores__select-label"
+        >
+          Select store
+        </label>
+        <select
+          id="existing-stores"
+          value={selectValue}
+          onChange={handleSelect}
+          className="existing-stores__select"
+        >
+          <SelectOptions
+            optionArray={existingStores}
+            messageIfNone="Apologies, no existing stores available!"
+          />
+        </select>
+      </div>
       <fieldset className="existing-stores__filter filter-options">
         <legend className="filter-options__legend">Filter by ownership</legend>
         <FilterInputs
@@ -60,8 +75,9 @@ export const SelectExistingStore = ({
           values={FILTER_OPTIONS}
           labelClassName={"filter-options__label"}
         />
-      </fieldset> 
-    </div>
+      </fieldset>
+      </div>
+    </section>
   );
 };
 

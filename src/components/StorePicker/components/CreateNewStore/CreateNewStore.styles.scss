@@ -1,0 +1,48 @@
+.store-creator {
+  margin: 1rem 0;
+  padding: 1rem;
+
+  border: solid 1px #c0c0c0;
+
+  font-family: "blanchcaps_inline", sans-serif;
+  font-weight: 600;
+  font-size: 3rem;
+
+  &__header {
+    margin: 0;
+
+    font-size: 4rem;
+    font-family: inherit;
+    font-weight: inherit;
+
+    text-decoration-line: underline;
+  }
+
+  &__or {
+    position: relative;
+    width: 4rem;
+    
+    margin: 0 auto;
+
+    font-size: 3.5rem;
+    text-align: center;
+
+    &:after,
+    &:before {
+      content: "";
+      background: #c0c0c0;
+      height: 1px;
+      width: 230px;
+      position: absolute;
+      top: 1.7rem;
+    }
+
+    &:after {
+      left: 4rem;
+    }
+
+    &:before {
+      right: 4rem;
+    }
+  }
+}

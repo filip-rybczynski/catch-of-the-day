@@ -1,0 +1,39 @@
+.provide-name {
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__header {
+    margin: 0 0 1rem;
+
+    text-align: center;
+    font-family: "blanchcaps_inline", sans-serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+
+  }
+
+  &__label {
+    display: inline-block;
+    width: 100%;
+
+    display: flex;
+  }
+
+  &__field {
+    margin-left: 1rem;
+
+    flex: 1 1 auto;
+
+    font-weight: inherit;
+  }
+
+  &__error-message {
+    min-width: 318px;
+    color: crimson;
+    margin: 1rem 0 0;
+  }
+}

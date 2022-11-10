@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 // Types
 import { NavTabProps } from "./NavTab.interface";
 
+// Styles
+import "./NavTab.styles.scss";
+
 export const NavTab = ({
   index,
   activeTab,

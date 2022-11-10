@@ -1,0 +1,67 @@
+.existing-stores {
+  margin: 1rem 0;
+  padding: 1rem;
+
+  border: solid 1px #c0c0c0;
+
+  font-family: "blanchcaps_inline", sans-serif;
+  font-weight: 600;
+  font-size: 3rem;
+
+  &__header {
+    font-size: 4rem;
+    font-family: inherit;
+    font-weight: inherit;
+
+    text-decoration-line: underline;
+
+  }
+
+  &__flex {
+    display: flex;
+  }
+
+  &__selection {
+    flex: 5 1 0;
+
+    padding: 0 1rem 0 0;
+  }
+
+  &__select-label {
+    margin: 0 0 1rem;
+  }
+
+  &__select {
+    width: 100%;
+
+    margin: 1rem 0;
+    padding: 0 0 0.5rem;
+
+    font-weight: inherit;
+
+    & * {
+      font-weight: inherit;
+    }
+  }
+
+  &__filter {
+    flex: 3 1 0;
+  }
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+
+  padding-bottom: 1.5rem;
+
+  &__label {
+    margin-right: 2rem;
+  }
+
+  & input {
+    margin-right: 0.5rem;
+  }
+}

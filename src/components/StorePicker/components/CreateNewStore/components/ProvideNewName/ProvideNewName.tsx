@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 // Types
 import { ProvideNewNameProps } from "./ProvideNewName.interface";
 
+// Styles
+import "./ProvideNewName.styles.scss";
+
 export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const [inputName, setInputName] = useState("");
   const [inputError, setInputError] = useState("");
@@ -37,26 +40,30 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   };
 
   return (
-    <div className="name-input">
-      <label htmlFor="new-store-input" className="name-input__label">
-        New store name
-      </label>
-      <input
-        type="text"
-        id="new-store-input"
-        className="name-input__field"
-        name="new-name"
-        value={inputName}
-        onChange={handleChange}
-      />
-      {inputError ? (
-        <label htmlFor="new-store-input" className="name-input__error-label">
-          {inputError}
-        </label>
-      ) : (
-        ""
-      )}
-    </div>
+    <section className="provide-name">
+      <h3 className="provide-name__header">
+        Provide a new name for your store
+      </h3>
+      <label htmlFor="new-store-input" className="provide-name__label">
+        Store name
+        <input
+          type="text"
+          id="new-store-input"
+          className="provide-name__field"
+          name="new-name"
+          value={inputName}
+          onChange={handleChange}
+          aria-describedby="error"
+          />
+          </label>
+          {inputError ? (
+            <span id="error" className="provide-name__error-message">
+              {inputError}
+            </span>
+          ) : (
+            ""
+          )}
+    </section>
   );
 };
 
