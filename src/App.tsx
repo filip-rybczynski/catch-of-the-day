@@ -22,6 +22,7 @@ import { getUpdatedFishDetails } from "./utils";
 import { appDB } from "./firebase";
 import sampleFishes from "./sample-fishes";
 import FishEditor from "./components/Inventory/components/FishEditor/FishEditor";
+import { splitAndCapitalize } from "./helpers";
 
 export const App = ({ match: { params } }: AppProps) => {
   const [fishMenu, setFishMenu] = useState<FishMenu>(); // should start as "undefined"
@@ -112,7 +113,7 @@ export const App = ({ match: { params } }: AppProps) => {
   return (
     <div className="catch-of-the-day">
       <div className="menu">
-        <Header tagline="Fresh Seafood Market" />
+        <Header tagline={splitAndCapitalize(params.storeId)} />
         <MenuList fishMenu={fishMenu || {}} addToOrder={addToOrder} />
       </div>
       <Order
