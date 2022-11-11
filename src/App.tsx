@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
-import { Header, MenuList, Inventory, Order } from "./components";
+import { Header, MenuList, Inventory, Order, FishEditor } from "./components";
 
 // Types
 import { AppProps } from "./App.interface";
@@ -21,7 +21,6 @@ import {
 import { getUpdatedFishDetails } from "./utils";
 import { appDB } from "./firebase";
 import sampleFishes from "./sample-fishes";
-import FishEditor from "./components/Inventory/components/FishEditor/FishEditor";
 import { splitAndCapitalize } from "./helpers";
 
 export const App = ({ match: { params } }: AppProps) => {
