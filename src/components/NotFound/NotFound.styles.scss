@@ -1,15 +1,22 @@
 .not-found {
-    height: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    &__message {
-        margin: 7rem 0 -7rem;
-        
-        font-size: 8rem;
+  &__message {
+    margin: 7rem 0 -7rem;
 
-    }
+    font-size: 8rem;
+  }
+
+  &__button {
+    margin: -7rem 0 0;
+
+    background: #e9e9e9;
+
+    font-size: 4rem;
+  }
 }
