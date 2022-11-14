@@ -11,6 +11,7 @@
 .loading {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -19,8 +20,8 @@
   &__spinner {
     content: "";
     display: inline-block;
-    height: 70px;
-    width: 70px;
+    min-height: 70px;
+    min-width: 70px;
     border-radius: 50%;
     border: solid 8px lightblue;
     border-left: solid 8px navy;
@@ -30,8 +31,9 @@
   }
 
   &__text {
-    font-size: 1.2rem;
+    margin: 1rem 0;
 
-    margin: 0;
+    font-size: 1.5rem;
+
   }
 }
