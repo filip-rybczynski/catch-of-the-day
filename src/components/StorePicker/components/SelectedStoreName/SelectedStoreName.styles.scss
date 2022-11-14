@@ -1,0 +1,45 @@
+span.none {
+  color: black;
+}
+
+.selected-store {
+  display: inline-block;
+
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+.selected-store {
+  position: relative;
+
+  &-enter {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    display: inline-block;
+    width: 100%;
+
+    white-space: nowrap;
+
+    transition: all 0.25s cubic-bezier(0.4, 1.47, 0.78, 1.23);
+    transform: translateY(120%);
+    color: #ff69eb;
+    opacity: 0%;
+
+    &-active {
+      transform: translateY(0%);
+      color: #f56623;
+      opacity: 100%;
+    }
+
+    &-done {
+      color: #eb4f11;
+    }
+  }
+
+  &-exit {
+    display: none;
+  }
+}

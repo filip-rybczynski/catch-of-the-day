@@ -9,6 +9,7 @@ import {
   NavTab,
   CreateNewStore,
   SelectExistingStore,
+  SelectedStoreName
 } from "./components";
 
 // Hooks
@@ -19,13 +20,15 @@ import { slugify } from "../../helpers";
 
 // Styles
 import "./StorePicker.styles.scss";
+// import { SelectedStoreName } from "./components/SelectedStoreName";
 
 export const StorePicker = (props: RouteComponentProps) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [selectedStoreName, useActiveTabName] = useMainFormValue();
+  const [selectedStoreName, useActiveTabName] = useMainFormValue("");
 
   const goToStore = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!selectedStoreName) return;
 
     props.history.push(`/store/${slugify(selectedStoreName)}`);
   };
@@ -67,17 +70,16 @@ export const StorePicker = (props: RouteComponentProps) => {
           />
         )}
       />
-      <h2 className="store-selector__current-selection">
-        Store name: {selectedStoreName || "none" }
-      </h2>
-
-      <button type="submit" className="store-selector__submit-button" disabled={!selectedStoreName}>
-        {
-          selectedStoreName
-          ? `Go to store `
-          : "Please choose a store to visit"
-        }
-        
+      <SelectedStoreName
+        storeName={selectedStoreName}
+        parentElClassName="store-selector__current-selection"
+      />
+      <button
+        type="submit"
+        className="store-selector__submit-button"
+        disabled={!selectedStoreName}
+      >
+        {selectedStoreName ? `Go to store ` : "Please choose a store to visit"}
       </button>
     </form>
   );

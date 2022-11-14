@@ -5,7 +5,7 @@
   padding: 2rem;
   border: 2px solid #000;
 
-  font-family: 'blanchcaps_inline', sans-serif;
+  font-family: "blanchcaps_inline", sans-serif;
   font-weight: 600;
 
   &__header {
@@ -17,17 +17,16 @@
 
     padding: 0.7rem;
 
-font-family: inherit;
+    font-family: inherit;
     font-size: 3.5rem;
   }
 
   &__current-selection {
     margin: 0.5rem 0 1.5rem;
-    
+
     font-size: 4rem;
     font-family: inherit;
     font-weight: inherit;
-
 
     text-align: left;
   }
