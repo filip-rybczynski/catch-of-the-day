@@ -38,7 +38,9 @@ export const GenerateRandomName = ({
 
   return (
     <section className="name-generator">
-      <h3 className="name-generator__header">Click the button to generate a random name!</h3>
+      <h3 className="name-generator__header">
+        Click the button to generate a random name!
+      </h3>
       <button
         className="name-generator__button"
         type="button"

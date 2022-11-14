@@ -1,3 +1,16 @@
-.toggle-button.active {
-    background: hotpink;
+    // As per global css file: before pseudoelement triggers at hover, after - at focus
+    
+.toggle-button {
+  &.active {
+    color: #fff;
+    outline: 0;
+    &:before {
+      height: 100%; // global css files has rules for transitions of height property of buttons' after and before pseudoelements
+    }
+  }
+
+  &:focus:after,
+  &:hover:after {
+    height: 100%;
+  }
 }

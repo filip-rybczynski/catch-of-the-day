@@ -14,9 +14,7 @@ export const ToggleButtonGroup = <T extends ButtonVals>({
   valueHandler,
   mainButtonClass = "toggle-button",
 }: ToggleButtonGroupProps<T>) => {
-  const [activeButtonIndex, setActiveButtonIndex] = useState<number>(
-    0
-  );
+  const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
 
   const handleClick = (val: T, i: number) => {
     valueHandler(val);
@@ -33,7 +31,7 @@ export const ToggleButtonGroup = <T extends ButtonVals>({
           key={i + label}
           type="button"
           onClick={handleClick.bind(null, val, i)}
-          className={`${mainButtonClass} ${
+          className={`toggle-button ${mainButtonClass} ${
             activeButtonIndex === i ? "active" : ""
           }`}
         >

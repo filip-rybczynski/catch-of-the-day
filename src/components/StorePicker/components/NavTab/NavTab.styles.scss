@@ -1,21 +1,16 @@
-nav button:after {
-    content: '';
-    z-index: -1;
-    display: block;
-    background: #2c2c2c;
-    position: absolute;
-    width: 100%;
-    height: 0;
-    left: 0;
-    top: 0;
-    transition: all 0.2s;
-}
+    // As per global css file: before pseudoelement triggers at hover, after - at focus
 
-nav button.active, nav button:focus, nav button:hover {
+.nav-button {
+  &.active {
     color: #fff;
     outline: 0;
+    &:before {
+      height: 100%; // global css files has rules for transitions of height property of buttons' after and before pseudoelements
+    }
+  }
 
-    &:after {
-        height: 100%;
-      }
+  &:focus:after,
+  &:hover:after {
+    height: 100%;
+  }
 }

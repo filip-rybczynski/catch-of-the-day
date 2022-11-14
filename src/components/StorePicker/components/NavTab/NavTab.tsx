@@ -18,7 +18,7 @@ export const NavTab = ({
   return (
     <button
       type="button"
-      className={`${mainClassName} ${isActive}`}
+      className={`nav-button ${mainClassName} ${isActive}`}
       onClick={() => {
         clickHandler(index);
       }}
