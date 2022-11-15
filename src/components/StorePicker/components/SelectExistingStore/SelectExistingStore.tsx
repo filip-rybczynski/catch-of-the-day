@@ -5,31 +5,45 @@ import PropTypes from "prop-types";
 // Types
 import { SelectExistingStoreProps } from "./SelectExistingStore.interface";
 import { FilterOptions } from "./types";
+import { Store } from "../../types";
 
 // Components
 import { SelectOptions } from "./StoreDropdown/SelectOptions";
-
-// Hooks
-import { useExistingStores } from "./hooks/useExistingStores";
-import { splitAndCapitalize } from "../../../../helpers";
 import { FilterInputs } from "./FilterInputs";
+
+// utils
+import { splitAndCapitalize } from "../../../../helpers";
+
+// variables
+import { FILTER_OPTIONS } from "./constants";
 
 // styles
 import "./SelectExistingStore.styles.scss";
 
-const FILTER_OPTIONS = ["owned", "unowned"]
-
 export const SelectExistingStore = ({
   updateSelectedName,
   isActive,
+  existingStores = {},
 }: SelectExistingStoreProps) => {
   const [selectValue, setSelectValue] = useState("");
   const [storeFilter, setStoreFilter] = useState<FilterOptions>("");
-  const [existingStores, filterExistingStores] = useExistingStores();
+  const [storeList, setStoreList] = useState(Object.keys(existingStores));
 
+  // Update store list for selection whenever 1. existing store list (fetched) changes, or 2. filter gets updated
   useEffect(() => {
-    filterExistingStores(storeFilter);
-  }, [storeFilter]);
+    let updatedStoreNames = Object.keys(existingStores);
+
+    if (storeFilter) {
+      const getOwned = storeFilter === "owned";
+
+      updatedStoreNames = updatedStoreNames.filter(
+        (store) =>
+          (existingStores[store] as Store).hasOwnProperty("owner") === getOwned
+      );
+    }
+
+    setStoreList(updatedStoreNames);
+  }, [storeFilter, existingStores]);
 
   updateSelectedName(splitAndCapitalize(selectValue), isActive);
 
@@ -47,43 +61,46 @@ export const SelectExistingStore = ({
     <section className="existing-stores">
       <h2 className="existing-stores__header">Visit existing store</h2>
       <div className="existing-stores__flex">
-      <div className="existing-stores__selection">
-        <label
-          htmlFor="existing-stores"
-          className="existing-stores__select-label"
-        >
-          Select store
-        </label>
-        <select
-          id="existing-stores"
-          value={selectValue}
-          onChange={handleSelect}
-          className="existing-stores__select"
-        >
-          <SelectOptions
-            optionArray={existingStores}
-            messageIfNone="Apologies, no existing stores available!"
+        <div className="existing-stores__selection">
+          <label
+            htmlFor="existing-stores"
+            className="existing-stores__select-label"
+          >
+            Select store
+          </label>
+          <select
+            id="existing-stores"
+            value={selectValue}
+            onChange={handleSelect}
+            className="existing-stores__select"
+          >
+            <SelectOptions
+              optionArray={storeList}
+              messageIfNone="Apologies, no existing stores available!"
+            />
+          </select>
+        </div>
+        <fieldset className="existing-stores__filter filter-options">
+          <legend className="filter-options__legend">
+            Filter by ownership
+          </legend>
+          <FilterInputs
+            onChange={onFilterChange}
+            currentFilter={storeFilter}
+            // Re: unowned option - It's not possible to add a store to the Firebase database without an owner (otherwise the database could easily get cluttered), but some unowned stores are left in the Firebase database for the purpose of this demo
+            values={FILTER_OPTIONS}
+            labelClassName={"filter-options__label"}
           />
-        </select>
-      </div>
-      <fieldset className="existing-stores__filter filter-options">
-        <legend className="filter-options__legend">Filter by ownership</legend>
-        <FilterInputs
-          onChange={onFilterChange}
-          currentFilter={storeFilter}
-          // Re: unowned option - It's not possible to add a store to the Firebase database without an owner (otherwise the database could easily get cluttered), but some unowned stores are left in the Firebase database for the purpose of this demo
-          values={FILTER_OPTIONS}
-          labelClassName={"filter-options__label"}
-        />
-      </fieldset>
+        </fieldset>
       </div>
     </section>
   );
 };
 
 SelectExistingStore.propTypes = {
-  updateSelectedName: PropTypes.func,
-  isActive: PropTypes.bool,
+  updateSelectedName: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  existingStores: PropTypes.object
 };
 
 export default SelectExistingStore;
