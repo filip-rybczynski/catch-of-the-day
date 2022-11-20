@@ -46,35 +46,37 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
       <h3 className="provide-name__header">
         Provide a new name for your store
       </h3>
-      <label htmlFor="new-store-input" className="provide-name__label">
-        Store name
-        <input
-          type="text"
-          id="new-store-input"
-          className="provide-name__field"
-          name="new-name"
-          value={inputName}
-          onChange={handleChange}
-          aria-describedby="error"
-        />
-      </label>
+      <div className="provide-name__controls">
+        <label htmlFor="new-store-input" className="provide-name__label">
+          Store name
+          <input
+            type="text"
+            id="new-store-input"
+            className="provide-name__field"
+            name="new-name"
+            value={inputName}
+            onChange={handleChange}
+            aria-describedby="error"
+          />
+        </label>
+
+        <button type="button" aria-label="clear input" onClick={handleClear} className="input-clear">
+          Clear
+        </button>
+        <button
+          type="button"
+          aria-label="confirm name from input"
+          onClick={handleConfirm}
+          className="input-confirm"
+        >
+          Confirm
+        </button>
+      </div>
       <ErrorMessages
         inputErrors={inputErrors}
         inputId="new-store-input"
         errorClassName="provide-name__error-message"
       />
-      <button
-        type="button"
-        aria-label="clear input"
-        onClick={handleClear}
-      >
-        Clear
-      </button>
-      <button type="button" 
-        aria-label="confirm name from input"
-      onClick={handleConfirm}>
-        Confirm
-      </button>
     </section>
   );
 };

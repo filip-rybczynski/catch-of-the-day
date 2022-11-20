@@ -13,7 +13,16 @@
     font-family: "blanchcaps_inline", sans-serif;
     font-size: 3.5rem;
     font-weight: 600;
+  }
 
+  &__controls {
+    display: flex;
+
+    width: 100%;
+
+    & > *:not(:last-child) {
+      margin-right: 0.5rem;
+    }
   }
 
   &__label {
@@ -34,6 +43,21 @@
   &__error-message {
     min-width: 318px;
     color: crimson;
-    margin: 1rem 0 0;
+    margin: 0.5rem 0 0;
+
+    font-size: 2.5rem;
+  }
+}
+
+.input-clear {
+  color: #686868;
+}
+
+.input-confirm {
+  color: #075f07;
+
+  &:before,
+  &:after {
+    background: #075f07;
   }
 }
