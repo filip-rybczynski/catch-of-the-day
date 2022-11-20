@@ -1,42 +1,44 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+
+// Components
+import { ErrorMessages } from "./ErrorMessages";
 
 // Types
 import { ProvideNewNameProps } from "./ProvideNewName.interface";
+import { ErrorStrings } from "./types";
+
+// Utils
+import { validateInput } from "./utils/validateInput";
 
 // Styles
 import "./ProvideNewName.styles.scss";
 
 export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const [inputName, setInputName] = useState("");
-  const [inputError, setInputError] = useState("");
-
-  useEffect(() => {
-    setStoreName(inputName);
-  }, [inputName]);
+  const [inputErrors, setInputErrors] = useState<ErrorStrings[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     const newEntry = e.currentTarget.value;
 
-    if (newEntry !== "" && !/^[a-zA-Z\s]+$/.test(newEntry)) {
-      setInputError("Only letters are allowed in store names!");
-      return;
-    }
-
     setInputName(newEntry);
+  };
 
-    const words = newEntry.split(" ").filter((str) => str !== "");
+  const handleConfirm = () => {
+    const newErrors = validateInput(inputName);
 
-    if (words.length > 2 && newEntry.slice(-1) === " ") { // user can continue typing the third word until he enters a space character
-      setInputError("Name can't be longer than 3 words!");
-      setInputName(words.slice(0, 3).join(" "));
-      return;
-    }
+    if (!newErrors.length) setStoreName(inputName.trim());
+    setInputErrors(newErrors);
 
-    setInputError("");
+    return;
+  };
+
+  const handleClear = () => {
+    setInputName("");
+    setInputErrors([]);
   };
 
   return (
@@ -54,15 +56,25 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
           value={inputName}
           onChange={handleChange}
           aria-describedby="error"
-          />
-          </label>
-          {inputError ? (
-            <span id="error" className="provide-name__error-message">
-              {inputError}
-            </span>
-          ) : (
-            ""
-          )}
+        />
+      </label>
+      <ErrorMessages
+        inputErrors={inputErrors}
+        inputId="new-store-input"
+        errorClassName="provide-name__error-message"
+      />
+      <button
+        type="button"
+        aria-label="clear input"
+        onClick={handleClear}
+      >
+        Clear
+      </button>
+      <button type="button" 
+        aria-label="confirm name from input"
+      onClick={handleConfirm}>
+        Confirm
+      </button>
     </section>
   );
 };
