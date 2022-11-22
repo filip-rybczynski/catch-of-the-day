@@ -5,7 +5,6 @@ export function rando<T>(arr: Array<T>): T {
   }
 
 export function generateName(length = 2) {
-    console.log(length);
     const adjectives = [
       "adorable",
       "amazing",
@@ -17,9 +16,11 @@ export function generateName(length = 2) {
       "delicious",
       "elegant",
       "electrifying",
+      "extreme",
       "fancy",
       "fantastic",
       "fierce",
+      "fun",
       "great",
       "glamorous",
       "hilarious",
@@ -29,16 +30,22 @@ export function generateName(length = 2) {
       "magnificent",
       "magic",
       "organic",
+      "otherworldly",
       "playful",
       "peppy",
+      "pretty",
       "quaint",
       "sparkling",
       "spectacular",
+      "splendid",
       "terrific",
       "tasty",
       "unreal",
+      "unbelievable",
       "vast",
+      "vicious",
       "wacky",
+      "wonderful",
       "zany",
     ];
   
@@ -80,7 +87,6 @@ export function generateName(length = 2) {
   
     return Array<string | null>(length).fill(null)
       .map((_, i) => {
-        console.log(length, i)
         return i < length - 1 ? rando(adjectives) : rando(fish);
       })
       .map(capitalize)
