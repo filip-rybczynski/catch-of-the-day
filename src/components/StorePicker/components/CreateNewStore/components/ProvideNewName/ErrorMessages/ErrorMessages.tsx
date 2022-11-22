@@ -15,7 +15,7 @@ export const ErrorMessages = ({
   return (
     <>
       {inputErrors.map((error) => (
-        <label htmlFor={inputId} className={errorClassName}>
+        <label htmlFor={inputId} className={errorClassName} key={error}>
           {error}
         </label>
       ))}
