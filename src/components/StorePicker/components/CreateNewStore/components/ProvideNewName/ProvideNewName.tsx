@@ -1,16 +1,18 @@
 // React
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
 import { ErrorMessages } from "./ErrorMessages";
+import { ExistingStoreContext } from "../../../ExistingStoreProvider";
 
 // Types
 import { ProvideNewNameProps } from "./ProvideNewName.interface";
 import { ErrorStrings } from "./types";
 
 // Utils
-import { validateInput } from "./utils/validateInput";
+import { validateInput } from "./utils";
+import { capitalize } from "../../../../../../helpers";
 
 // Styles
 import "./ProvideNewName.styles.scss";
@@ -18,6 +20,9 @@ import "./ProvideNewName.styles.scss";
 export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const [inputName, setInputName] = useState("");
   const [inputErrors, setInputErrors] = useState<ErrorStrings[]>([]);
+
+  // Array of store names (lowercase, hyphenated)
+  const existingStores = Object.keys(useContext(ExistingStoreContext));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -28,9 +33,18 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   };
 
   const handleConfirm = () => {
-    const newErrors = validateInput(inputName);
+    // remove multiple whitespaces to simplify validations
+    const prunedInput = inputName.trim().replace(/\s\s+/g, " ");
 
-    if (!newErrors.length) setStoreName(inputName.trim());
+    // Check if input triggers any validation errors
+    const newErrors = validateInput(prunedInput, existingStores);
+
+    if (!newErrors.length) { // only set new store name if there are no errors
+      const capitalizedName = prunedInput.split(" ").map(capitalize).join(" "); // capitalize each word
+
+      setStoreName(capitalizedName);
+    }
+    // if there are no errors, this will just reset errors
     setInputErrors(newErrors);
 
     return;
@@ -60,7 +74,12 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
           />
         </label>
 
-        <button type="button" aria-label="clear input" onClick={handleClear} className="input-clear">
+        <button
+          type="button"
+          aria-label="clear input"
+          onClick={handleClear}
+          className="input-clear"
+        >
           Clear
         </button>
         <button
