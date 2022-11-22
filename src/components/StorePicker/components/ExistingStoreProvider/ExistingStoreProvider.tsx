@@ -1,3 +1,4 @@
+// React
 import React, {
   createContext,
   FC,
@@ -5,23 +6,35 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
+// Firebase
 import { appDB } from "../../../../firebase";
+
+// Types
 import { FetchedStores } from "../../types";
 
+// create context
 export const ExistingStoreContext = createContext<FetchedStores>({});
 
+// Context provider component
 export const ExistingStoreProvider: FC<PropsWithChildren> = (props) => {
   const [existingStores, setExistingStores] = useState<FetchedStores>({});
 
-  // Fetching object of existing stores from Firebase DB
+  // Fetching object of existing stores from Firebase DB (and listening for subsequent updates)
   useEffect(() => {
     const dataBaseRef = appDB.ref();
 
-    dataBaseRef.once("value", (snapshot) => {
-      const stores = snapshot.val();
+    dataBaseRef.on(
+      "value",
+      (snapshot) => {
+        const stores = snapshot.val();
 
-      setExistingStores(stores);
-    }); // once() adds a listener, reads the value once, and then removes listener - no cleanup function required
+        setExistingStores(stores);
+      },
+      (errorObject) => console.log("The read failed: " + errorObject.name)
+    );
+
+    return () => dataBaseRef.off("value"); // cleanup: removing listener
   }, []);
 
   return (
