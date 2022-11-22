@@ -11,6 +11,7 @@ import {
   SelectExistingStore,
   SelectedStoreName
 } from "./components";
+import { ExistingStoreProvider } from "./components/ExistingStoreProvider";
 
 // Hooks
 import { useMainFormValue } from "./hooks";
@@ -30,9 +31,9 @@ import "./StorePicker.styles.scss";
 export const StorePicker = (props: RouteComponentProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedStoreName, useActiveTabName] = useMainFormValue("");
-  const [existingStores, setExistingStores] = useState<FetchedStores>();
-  
-  // Fetching object of existing stores from Firebase DB
+  const [existingStores, setExistingStores] = useState<FetchedStores>(); //TODO: remove
+
+  // Fetching object of existing stores from Firebase DB //TODO remove
   useEffect(() => {
     const dataBaseRef = appDB.ref();
 
@@ -67,27 +68,29 @@ export const StorePicker = (props: RouteComponentProps) => {
           />
         ))}
       </nav>
-      <FormTab
-        index={0}
-        activeTab={activeTab}
-        render={(isActive) => (
-          <SelectExistingStore
-            updateSelectedName={useActiveTabName}
-            isActive={isActive}
-            existingStores={existingStores}
-          />
-        )}
-      />
-      <FormTab
-        index={1}
-        activeTab={activeTab}
-        render={(isActive) => (
-          <CreateNewStore
-            updateSelectedName={useActiveTabName}
-            isActive={isActive}
-          />
-        )}
-      />
+      <ExistingStoreProvider>
+        <FormTab
+          index={0}
+          activeTab={activeTab}
+          render={(isActive) => (
+            <SelectExistingStore
+              updateSelectedName={useActiveTabName}
+              isActive={isActive}
+              existingStores={existingStores}
+            />
+          )}
+        />
+        <FormTab
+          index={1}
+          activeTab={activeTab}
+          render={(isActive) => (
+            <CreateNewStore
+              updateSelectedName={useActiveTabName}
+              isActive={isActive}
+            />
+          )}
+        />
+      </ExistingStoreProvider>
       <SelectedStoreName
         storeName={selectedStoreName}
         parentElClassName="store-selector__current-selection"
