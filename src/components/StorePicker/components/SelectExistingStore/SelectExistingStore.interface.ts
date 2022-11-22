@@ -9,7 +9,6 @@ interface FetchedStores {
 }
 
 export interface SelectExistingStoreProps {
-    existingStores?: FetchedStores,
     updateSelectedName: UpdateMainFormValue;
     isActive: boolean;
   }

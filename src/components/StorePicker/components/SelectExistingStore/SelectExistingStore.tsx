@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Types
@@ -10,6 +10,7 @@ import { Store } from "../../types";
 // Components
 import { SelectOptions } from "./StoreDropdown/SelectOptions";
 import { FilterInputs } from "./FilterInputs";
+import { ExistingStoreContext } from "../ExistingStoreProvider";
 
 // utils
 import { splitAndCapitalize } from "../../../../helpers";
@@ -23,27 +24,30 @@ import "./SelectExistingStore.styles.scss";
 export const SelectExistingStore = ({
   updateSelectedName,
   isActive,
-  existingStores = {},
 }: SelectExistingStoreProps) => {
+  // Receive existing stores from the context provider
+  const existingStoreObject = useContext(ExistingStoreContext);
+  
   const [selectValue, setSelectValue] = useState("");
   const [storeFilter, setStoreFilter] = useState<FilterOptions>("");
-  const [storeList, setStoreList] = useState(Object.keys(existingStores));
+  const [storeList, setStoreList] = useState<string[]>([]);
 
-  // Update store list for selection whenever 1. existing store list (fetched) changes, or 2. filter gets updated
+
+  // Update store list for selection whenever 1. existing store list (fetched by context provider) changes, or 2. filter gets updated
   useEffect(() => {
-    let updatedStoreNames = Object.keys(existingStores);
+    let updatedStoreNames = Object.keys(existingStoreObject);
 
     if (storeFilter) {
       const getOwned = storeFilter === "owned";
 
       updatedStoreNames = updatedStoreNames.filter(
         (store) =>
-          (existingStores[store] as Store).hasOwnProperty("owner") === getOwned
+          (existingStoreObject[store] as Store).hasOwnProperty("owner") === getOwned
       );
     }
 
     setStoreList(updatedStoreNames);
-  }, [storeFilter, existingStores]);
+  }, [storeFilter, existingStoreObject]);
 
   updateSelectedName(splitAndCapitalize(selectValue), isActive);
 

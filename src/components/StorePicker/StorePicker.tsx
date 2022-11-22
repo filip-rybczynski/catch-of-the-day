@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RouteComponentProps } from "react-router";
 import PropTypes from "prop-types";
 
@@ -16,12 +16,6 @@ import { ExistingStoreProvider } from "./components/ExistingStoreProvider";
 // Hooks
 import { useMainFormValue } from "./hooks";
 
-// Types
-import { FetchedStores } from "./types";
-
-// Firebase
-import { appDB } from "../../firebase";
-
 // utils
 import { slugify } from "../../helpers";
 
@@ -31,18 +25,6 @@ import "./StorePicker.styles.scss";
 export const StorePicker = (props: RouteComponentProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedStoreName, useActiveTabName] = useMainFormValue("");
-  const [existingStores, setExistingStores] = useState<FetchedStores>(); //TODO: remove
-
-  // Fetching object of existing stores from Firebase DB //TODO remove
-  useEffect(() => {
-    const dataBaseRef = appDB.ref();
-
-    dataBaseRef.once("value", (snapshot) => {
-      const stores = snapshot.val();
-
-      setExistingStores(stores);
-    }); // once() adds a listener, reads the value once, and then removes listener - no cleanup function required
-  }, []);
 
   const goToStore = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +58,6 @@ export const StorePicker = (props: RouteComponentProps) => {
             <SelectExistingStore
               updateSelectedName={useActiveTabName}
               isActive={isActive}
-              existingStores={existingStores}
             />
           )}
         />
