@@ -12,7 +12,6 @@ export function rando<T>(arr: Array<T>): T {
 export function slugify(text: string) {
   return (
     text
-      // .toString()
       .toLowerCase()
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "")

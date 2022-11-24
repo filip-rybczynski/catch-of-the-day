@@ -64,7 +64,7 @@ export const StorePicker = (props: RouteComponentProps) => {
           activeTab={activeTab}
           render={(isActive) => (
             <SelectExistingStore
-              updateSelectedName={useActiveTabName}
+            useActiveTabName={useActiveTabName}
               isActive={isActive}
             />
           )}
@@ -74,7 +74,7 @@ export const StorePicker = (props: RouteComponentProps) => {
           activeTab={activeTab}
           render={(isActive) => (
             <CreateNewStore
-              updateSelectedName={useActiveTabName}
+            useActiveTabName={useActiveTabName}
               isActive={isActive}
             />
           )}

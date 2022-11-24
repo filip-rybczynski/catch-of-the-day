@@ -22,7 +22,7 @@ import { FILTER_OPTIONS } from "./constants";
 import "./SelectExistingStore.styles.scss";
 
 export const SelectExistingStore = ({
-  updateSelectedName,
+useActiveTabName,
   isActive,
 }: SelectExistingStoreProps) => {
   // Receive existing stores from the context provider
@@ -49,7 +49,7 @@ export const SelectExistingStore = ({
     setStoreList(updatedStoreNames);
   }, [storeFilter, existingStoreObject]);
 
-  updateSelectedName(splitAndCapitalize(selectValue), isActive);
+useActiveTabName(splitAndCapitalize(selectValue), isActive);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ export const SelectExistingStore = ({
 };
 
 SelectExistingStore.propTypes = {
-  updateSelectedName: PropTypes.func.isRequired,
+useActiveTabName: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   existingStores: PropTypes.object
 };

@@ -12,12 +12,12 @@ import { GenerateRandomName, ProvideNewName } from "./components";
 import "./CreateNewStore.styles.scss";
 
 export const CreateNewStore = ({
-  updateSelectedName,
+useActiveTabName,
   isActive,
 }: CreateNewStoreProps) => {
   const [newStoreName, setNewStoreName] = useState("");
 
-  updateSelectedName(newStoreName, isActive);
+useActiveTabName(newStoreName, isActive);
 
   return (
       <section className="store-creator">
@@ -36,6 +36,6 @@ export const CreateNewStore = ({
 };
 
 CreateNewStore.propTypes = {
-  updateSelectedName: PropTypes.func.isRequired,
+useActiveTabName: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
 };

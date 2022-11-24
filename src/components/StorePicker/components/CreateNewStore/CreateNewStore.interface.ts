@@ -1,6 +1,6 @@
 import { UpdateMainFormValue } from "../../types/UpdateMainFormValue.type";
 
 export interface CreateNewStoreProps {
-    updateSelectedName: UpdateMainFormValue,
+  useActiveTabName: UpdateMainFormValue,
     isActive: boolean,
 }
