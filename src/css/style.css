@@ -319,10 +319,6 @@ header.top h3:after {
   max-width: 1500px;
   margin: 0 auto;
   margin-top: 5vh;
-  -webkit-perspective: 1000px;
-  perspective: 1000px;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
 }
 .catch-of-the-day > * {
   flex: 1 4 auto;
@@ -337,12 +333,8 @@ header.top h3:after {
 .catch-of-the-day > *:first-child {
   flex-shrink: 1;
   flex-basis: 50%;
-  -webkit-transform: translateX(50%) rotateY(6deg) translateX(-50%);
-  transform: translateX(50%) rotateY(6deg) translateX(-50%);
 }
 .catch-of-the-day > *:nth-child(2) {
-  -webkit-transform: translateX(-50%) rotateY(-14deg) translateX(50%);
-  transform: translateX(-50%) rotateY(-14deg) translateX(50%);
   border-left: 0;
   border-right: 0;
   min-width: 300px;
@@ -350,14 +342,6 @@ header.top h3:after {
 .catch-of-the-day > *:last-child {
   flex-shrink: 1;
   flex-basis: 50%;
-  -webkit-transform: translateX(-50%) rotateY(10deg) translateX(50%) scale(1.08)
-    translateX(24px);
-  transform: translateX(-50%) rotateY(10deg) translateX(50%) scale(1.08)
-    translateX(24px);
-}
-input#fold:not(:checked) ~ #main .catch-of-the-day > * {
-  -webkit-transform: none;
-  transform: none;
 }
 label[for="fold"] {
   position: absolute;
