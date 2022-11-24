@@ -27,7 +27,7 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
     if (inputErrors.length) {
       inputRef.current && inputRef.current.focus(); 
     }
-  }, [inputErrors])
+  }, [inputErrors, inputRef])
 
   // Array of store names (lowercase, hyphenated)
   const existingStores = Object.keys(useContext(ExistingStoreContext));

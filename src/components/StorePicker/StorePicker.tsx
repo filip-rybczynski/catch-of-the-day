@@ -32,7 +32,7 @@ export const StorePicker = (props: RouteComponentProps) => {
   useEffect(() => {
     const submitButton = submitRef.current;
     if (submitButton) submitButton.focus();
-  }, [selectedStoreName]);
+  }, [selectedStoreName, submitRef]);
 
   const goToStore = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
