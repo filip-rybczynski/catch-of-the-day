@@ -7,12 +7,21 @@
   align-items: center;
 
   &__header {
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
 
     text-align: center;
     font-family: "blanchcaps_inline", sans-serif;
     font-size: 3.5rem;
     font-weight: 600;
+  }
+
+  &__instructions {
+    margin: 0 0 1.5rem;
+
+    color: #686868;
+
+    font-size: 2.5rem;
+    font-weight: 500;
   }
 
   &__controls {
@@ -30,6 +39,7 @@
     width: 100%;
 
     display: flex;
+    align-items: center;
   }
 
   &__field {
@@ -60,4 +70,8 @@
   &:after {
     background: #075f07;
   }
+}
+
+.input-error {
+  outline: crimson solid 4px;
 }

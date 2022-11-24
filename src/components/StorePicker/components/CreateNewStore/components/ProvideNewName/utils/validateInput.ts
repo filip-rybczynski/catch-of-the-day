@@ -2,6 +2,7 @@ import validateLetters from "./validateLetters";
 import validateNotEmpty from "./validateNotEmpty";
 import validateLength from "./validateLength";
 import validateUniqueInput from "./validateUniqueInput";
+import validateCharCount from "./validateCharCount";
 
 import { isErrorString } from ".";
 
@@ -15,6 +16,7 @@ export const validateInput = (
     validateNotEmpty,
     validateLetters,
     validateLength,
+    validateCharCount,
     validateUniqueInput(storeNames), // returns a function which takes one string argument and checks if it's found in the initially provided list of potential duplicates
   ];
 

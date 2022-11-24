@@ -30,6 +30,7 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
     const newEntry = e.currentTarget.value;
 
     setInputName(newEntry);
+    setInputErrors([]);
   };
 
   const handleConfirm = () => {
@@ -60,17 +61,19 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
       <h3 className="provide-name__header">
         Provide a new name for your store
       </h3>
+      <p className="provide-name__instructions">
+        Letters only, max 40 characters, no more than 3 words
+      </p>
       <div className="provide-name__controls">
         <label htmlFor="new-store-input" className="provide-name__label">
           Store name
           <input
             type="text"
             id="new-store-input"
-            className="provide-name__field"
+            className={`provide-name__field ${inputErrors.length ? "input-error" : "" }`}
             name="new-name"
             value={inputName}
             onChange={handleChange}
-            aria-describedby="error"
           />
         </label>
 
