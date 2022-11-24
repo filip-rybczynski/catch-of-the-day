@@ -35,12 +35,16 @@ export const App = ({ match: { params } }: AppProps) => {
 
   // Add listener to Firebase database to listen for updates realtime
   useEffect(() => {
-    databaseRef.once("value", (snapshot) => {
-      if (snapshot.val()) setFishMenu(snapshot.val());
-      else setFishMenu({}); // For when DB is new/all data is removed (snapshot.val() is null then)
-    });
-    // .once() only listens for one event and then removes it automatically
-    // so no cleanup function for the listener required
+    databaseRef.on(
+      "value",
+      (snapshot) => {
+        if (snapshot.val()) setFishMenu(snapshot.val());
+        else setFishMenu({}); // For when DB is new/all data is removed (snapshot.val() is null then)
+      },
+      (errorObject) => console.log("The read failed: " + errorObject.name)
+    );
+
+    return () => databaseRef.off("value"); // cleanup: removing listener
   }, []);
 
   // Load user's order from localStorage
