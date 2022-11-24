@@ -1,5 +1,5 @@
 // React
-import React, { useState } from "react";
+import React, { createRef, useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import PropTypes from "prop-types";
 
@@ -25,6 +25,14 @@ import "./StorePicker.styles.scss";
 export const StorePicker = (props: RouteComponentProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedStoreName, useActiveTabName] = useMainFormValue("");
+
+  const submitRef = createRef<HTMLButtonElement>();
+
+  // Focus on submit button if selected store name changes
+  useEffect(() => {
+    const submitButton = submitRef.current;
+    if (submitButton) submitButton.focus();
+  }, [selectedStoreName]);
 
   const goToStore = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,6 +88,8 @@ export const StorePicker = (props: RouteComponentProps) => {
         type="submit"
         className="store-selector__submit-button"
         disabled={!selectedStoreName}
+        aria-label={`Go to store: ${selectedStoreName}`}
+        ref={submitRef}
       >
         {selectedStoreName ? `Go to store ` : "Please choose a store to visit"}
       </button>
