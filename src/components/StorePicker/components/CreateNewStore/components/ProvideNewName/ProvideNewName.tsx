@@ -1,5 +1,5 @@
 // React
-import React, { useContext, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // Components
@@ -20,6 +20,14 @@ import "./ProvideNewName.styles.scss";
 export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
   const [inputName, setInputName] = useState("");
   const [inputErrors, setInputErrors] = useState<ErrorStrings[]>([]);
+
+  const inputRef = createRef<HTMLInputElement>();
+
+  useEffect(()=> {
+    if (inputErrors.length) {
+      inputRef.current && inputRef.current.focus(); 
+    }
+  }, [inputErrors])
 
   // Array of store names (lowercase, hyphenated)
   const existingStores = Object.keys(useContext(ExistingStoreContext));
@@ -74,6 +82,7 @@ export const ProvideNewName = ({ setStoreName }: ProvideNewNameProps) => {
             name="new-name"
             value={inputName}
             onChange={handleChange}
+            ref={inputRef}
           />
         </label>
 
