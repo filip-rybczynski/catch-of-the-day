@@ -67,7 +67,7 @@ export const App = ({ match: { params } }: AppProps) => {
   }, [order]);
 
   const loadSampleFishes = (): void => {
-    setFishMenu(sampleFishes);
+    setFishMenu((prev) => (prev ? { ...prev, ...sampleFishes } : sampleFishes));
   };
 
   const addFish = (fish: FishData) => {
