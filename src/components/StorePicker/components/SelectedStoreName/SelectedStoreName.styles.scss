@@ -26,12 +26,12 @@ span.none {
     transition: all 0.25s cubic-bezier(0.4, 1.47, 0.78, 1.23);
     transform: translateY(120%);
     color: #ff69eb;
-    opacity: 0%;
+    opacity: 0;
 
     &-active {
       transform: translateY(0%);
       color: #f56623;
-      opacity: 100%;
+      opacity: 1;
     }
 
     &-done {

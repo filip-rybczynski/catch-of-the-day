@@ -2,3 +2,5 @@ node_modules
 
 build
 old-files
+# Local Netlify folder
+.netlify
